@@ -8,7 +8,7 @@ Aplicación del lado servidor para el software de gestión comercial Deman Store
 - Nestjs v11
 - PostgreSQL
 
-# Estructura de carpetas
+## Estructura de carpetas
 
 ```bash
 deman-backend
