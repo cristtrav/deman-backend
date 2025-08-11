@@ -6,5 +6,5 @@ INSERT INTO public.unidad_medida(
     abreviatura_plural
 )
 VALUES
-('UN', 'Unidad', 'Unidades', 'ud.', 'uds.'),
-('MT', 'Metro', 'Metros', 'm', 'mts.')
+('UN', 'Unidad', 'Unidades', 'ud', 'uds'),
+('MT', 'Metro', 'Metros', 'm', 'mts')
