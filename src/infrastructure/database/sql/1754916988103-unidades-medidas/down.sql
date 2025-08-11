@@ -1,0 +1,1 @@
+DELETE FROM public.unidad_medida WHERE id IN ('UN', 'MT');
