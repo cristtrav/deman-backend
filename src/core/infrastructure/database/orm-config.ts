@@ -12,7 +12,7 @@ const ormConfig: DataSourceOptions = {
     password: process.env.DB_PASSWORD || 'postgres',
     database: process.env.DB_NAME || 'my_database',
     synchronize: false,
-    migrations: [join(__dirname, '..', 'infrastructure', 'database', 'migrations', '*.{ts,js}')],
+    migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
     logging: true,
     migrationsTableName: 'public.migrations'
 }
