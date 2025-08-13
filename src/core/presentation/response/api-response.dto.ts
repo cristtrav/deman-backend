@@ -1,7 +1,7 @@
 export class ApiResponse<T> {
     success: boolean;
     message: string;
-    data?: T;
+    data?: T | T[] ;
     errors?: string[];
     pagination?: PaginationMetadata;
 
