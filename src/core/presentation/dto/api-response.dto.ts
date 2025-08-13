@@ -1,38 +1,29 @@
-export class ApiResponse<T> {
-    success: boolean;
-    message: string;
+import { ResponseBase } from "./response-base";
+
+export class ApiResponseDTO<T> extends ResponseBase {    
     data?: T;
-    errors?: string[];
     pagination?: PaginationMetadata;
 
     private constructor(
-        success: boolean,
         message: string,
         data?: T,
-        errors?: string[] | null,
         pagination?: PaginationMetadata
     ){
-        this.success = success;
-        this.message = message;
+        super(true, message);
         this.data = data;
-        this.errors = errors ?? undefined;
         this.pagination = pagination;
     }
 
-    static success<T>(data?: T, message = 'Operación exitosa'): ApiResponse<T> {
-        return new ApiResponse<T>(true, message, data);
-    }
-
-    static error(message = 'Error en la operación', errors?: string[]): ApiResponse<null> {
-        return new ApiResponse<null>(false, message, null, errors);
+    static success<T>(data?: T, message = 'Operación exitosa'): ApiResponseDTO<T> {
+        return new ApiResponseDTO<T>(message, data);
     }
 
     static paginated<T>(
         data: T,
         message = 'Operación exitosa',
         pagination: PaginationMetadata
-    ): ApiResponse<T> {
-        return new ApiResponse<T>(true, message, data, null, pagination);
+    ): ApiResponseDTO<T> {
+        return new ApiResponseDTO<T>(message, data, pagination);
     }
 }
 
