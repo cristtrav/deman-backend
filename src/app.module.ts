@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from './core/infrastructure/database/database.module';
 import { APP_FILTER } from '@nestjs/core';
-import { GlobalExceptionFilter } from './core/infrastructure/http/filter/global-exception/global-exception.filter';
+import { DatabaseModule } from '@core/infrastructure/database/database.module';
+import { GlobalExceptionFilter } from '@core/infrastructure/filter/global-exception/global-exception.filter';
 
 @Module({
   imports: [
