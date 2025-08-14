@@ -1,5 +1,4 @@
 import { ApplicationException } from '@core/application/exception/application.exception';
-import { NotFoundException } from '@core/application/exception/not-found.exception';
 
 export class MarcaNotFoundException extends ApplicationException {
     readonly code: string;
