@@ -1,18 +1,15 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseFilters } from "@nestjs/common";
-import { ApiResponse } from "src/core/presentation/response/api-response.dto";
 import { ActualizarMarcaUseCase } from "src/marca/application/use-case/actualizar.use-case";
 import { BuscarMarcaPorNombreUseCase } from "src/marca/application/use-case/buscar-por-nombre.use-case";
-import { ContarMarcasUseCase } from "src/marca/application/use-case/contar.use-case";
 import { CrearMarcaUseCase } from "src/marca/application/use-case/crear.use-case";
 import { EliminarMarcaUseCase } from "src/marca/application/use-case/eliminar.use-case";
 import { ListarMarcasUseCase } from "src/marca/application/use-case/listar.use-case";
 import { ObtenerMarcaPorIdUseCase } from "src/marca/application/use-case/obtener-por-id.use-case";
-import { GlobalExceptionFilter } from "src/marca/infrastructure/exception-filter/exception-filter";
 import { MarcaDTO } from "../dto/marca.dto";
 import { NewMarcaDTO } from "../dto/new-marca.dto";
 import { MarcaDTOMapper } from "../mapper/marca-dto.mapper";
+import { ApiResponseDTO } from "@core/presentation/dto/api-response.dto";
 
-@UseFilters(GlobalExceptionFilter)
 @Controller('marcas')
 export class MarcaController {
     constructor(
@@ -22,62 +19,42 @@ export class MarcaController {
         private readonly obtenerMarcaPorIdUseCase: ObtenerMarcaPorIdUseCase,
         private readonly buscarMarcaPorNombreUseCase: BuscarMarcaPorNombreUseCase,
         private readonly listarMarcasUseCase: ListarMarcasUseCase,
-        //private readonly contarMarcasUseCase: ContarMarcasUseCase
     ) { }
 
     @Post()
-    async crearMarca(@Body() marcaDTO: NewMarcaDTO): Promise<ApiResponse<MarcaDTO>> {
+    async crearMarca(@Body() marcaDTO: NewMarcaDTO): Promise<ApiResponseDTO<MarcaDTO>> {
         const newMarca = MarcaDTOMapper.toDTO(await this.crearMarcaUseCase.execute(marcaDTO.descripcion))
-        return {
-            success: true,
-            message: "Marca creada exitosamente",
-            data: newMarca
-        }
+        return ApiResponseDTO.success(newMarca, "Marca creada exitosamente");
     }
+
     @Get()
-    async listarMarcas(): Promise<ApiResponse<MarcaDTO>> {
-        console.log('Controller')
+    async listarMarcas(): Promise<ApiResponseDTO<MarcaDTO[]>> {
         const marcaDTO = (await this.listarMarcasUseCase.execute()).map(marca => MarcaDTOMapper.toDTO(marca));
-        return {
-            success: true,
-            message: "Marcas listadas exitosamente",
-            data: marcaDTO
-        }
+        return ApiResponseDTO.success(marcaDTO, "Marcas listadas exitosamente");
     }
 
     @Get(':id')
-    async obtenerMarcaPorId(@Param('id', ParseIntPipe) id: number): Promise<ApiResponse<MarcaDTO>> {
+    async obtenerMarcaPorId(@Param('id', ParseIntPipe) id: number): Promise<ApiResponseDTO<MarcaDTO>> {
         const marca = MarcaDTOMapper.toDTO(await this.obtenerMarcaPorIdUseCase.execute(id));
-        return {
-            success: true,
-            message: "Marca obtenida exitosamente",
-            data: marca
-        }
+        return ApiResponseDTO.success(marca, "Marca obtenida exitosamente");
     }
     @Get('nombre/:descripcion')
-    async buscarMarcaPorNombre(@Param('descripcion') descripcion: string): Promise<ApiResponse<MarcaDTO>> {
+    async buscarMarcaPorNombre(@Param('descripcion') descripcion: string): Promise<ApiResponseDTO<MarcaDTO>> {
         const marca = MarcaDTOMapper.toDTO( await this.buscarMarcaPorNombreUseCase.execute(descripcion));
-        return {
-            success: true,
-            message: 'Marca obtenida exitosamente',
-            data: marca
-        };
+        return ApiResponseDTO.success(marca, "Marca obtenida exitosamente");
     }
 
     @Put(':id')
-    async actualizarMarca(@Param('id', ParseIntPipe) id: number, @Body() marca: MarcaDTO): Promise<ApiResponse<MarcaDTO>> {
+    async actualizarMarca(@Param('id', ParseIntPipe) id: number, @Body() marca: MarcaDTO): Promise<ApiResponseDTO<MarcaDTO>> {
         const marcaActual = MarcaDTOMapper.toDomain(marca);
         const marcaParaActualizar = await this.actualizarMarcaUseCase.execute(id, marcaActual.getDescripcion());
         const marcaActualizada = MarcaDTOMapper.toDTO(marcaParaActualizar);
-        return {
-            success: true,
-            message: "Marcas listadas exitosamente",
-            data: marcaActualizada
-        }
+        return ApiResponseDTO.success(marcaActualizada, "Marcas listadas exitosamente");
     }
 
     @Delete(':id')
-    deleteReason(@Param('id', ParseIntPipe) id: number): Promise<void> {
-        return this.eliminarMarcaUseCase.execute(id);
+    deleteReason(@Param('id', ParseIntPipe) id: number): ApiResponseDTO<void> {
+        this.eliminarMarcaUseCase.execute(id);
+        return ApiResponseDTO.success(undefined, "Marca eliminada correctamente");
     }
 }
