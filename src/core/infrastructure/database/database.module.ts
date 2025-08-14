@@ -5,7 +5,7 @@ import { DataSource } from 'typeorm';
 
 @Module({
     imports:[
-        TypeOrmModule.forRootAsync({ useFactory: () => ormConfig })
+        TypeOrmModule.forRootAsync({ useFactory: () => ({...ormConfig, autoLoadEntities: true}) })
     ],
     exports: [TypeOrmModule]
 })

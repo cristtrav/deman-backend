@@ -1,7 +1,6 @@
 import { DataSourceOptions } from 'typeorm';
 import { config } from 'dotenv';
 import { join } from 'path';
-import { MarcaTypeORMModel } from '@feature/marca/infrastructure/typeorm/model/marca.typeorm.model';
 
 config();
 
@@ -15,8 +14,7 @@ const ormConfig: DataSourceOptions = {
     synchronize: false,
     migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
     logging: true,
-    migrationsTableName: 'public.migrations',
-    entities:[MarcaTypeORMModel]
+    migrationsTableName: 'public.migrations'
 }
 
 export default ormConfig;
