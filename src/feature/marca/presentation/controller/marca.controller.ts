@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseFilters } from "@nestjs/common";
-import { ActualizarMarcaUseCase } from "src/marca/application/use-case/actualizar.use-case";
-import { BuscarMarcaPorNombreUseCase } from "src/marca/application/use-case/buscar-por-nombre.use-case";
-import { CrearMarcaUseCase } from "src/marca/application/use-case/crear.use-case";
-import { EliminarMarcaUseCase } from "src/marca/application/use-case/eliminar.use-case";
-import { ListarMarcasUseCase } from "src/marca/application/use-case/listar.use-case";
-import { ObtenerMarcaPorIdUseCase } from "src/marca/application/use-case/obtener-por-id.use-case";
 import { MarcaDTO } from "../dto/marca.dto";
 import { NewMarcaDTO } from "../dto/new-marca.dto";
 import { MarcaDTOMapper } from "../mapper/marca-dto.mapper";
 import { ApiResponseDTO } from "@core/presentation/dto/api-response.dto";
+import { ActualizarMarcaUseCase } from "@feature/marca/application/use-case/actualizar.use-case";
+import { BuscarMarcaPorNombreUseCase } from "@feature/marca/application/use-case/buscar-por-nombre.use-case";
+import { CrearMarcaUseCase } from "@feature/marca/application/use-case/crear.use-case";
+import { EliminarMarcaUseCase } from "@feature/marca/application/use-case/eliminar.use-case";
+import { ListarMarcasUseCase } from "@feature/marca/application/use-case/listar.use-case";
+import { ObtenerMarcaPorIdUseCase } from "@feature/marca/application/use-case/obtener-por-id.use-case";
 
 @Controller('marcas')
 export class MarcaController {

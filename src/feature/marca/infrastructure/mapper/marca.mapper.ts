@@ -1,5 +1,5 @@
-import { Marca } from "src/marca/domain/model/marca.entity";
-import { NewMarca } from "src/marca/domain/model/new-marca.entity";
+import { Marca } from "@feature/marca/domain/model/marca.entity";
+import { NewMarca } from "@feature/marca/domain/model/new-marca.entity";
 import { MarcaTypeORMModel } from "../typeorm/model/marca.typeorm.model";
 
 export class MarcaMapper {

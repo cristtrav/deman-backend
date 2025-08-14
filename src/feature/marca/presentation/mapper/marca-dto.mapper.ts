@@ -1,4 +1,4 @@
-import { Marca } from "src/marca/domain/model/marca.entity"
+import { Marca } from "@feature/marca/domain/model/marca.entity"
 import { MarcaDTO } from "../dto/marca.dto"
 
 export class MarcaDTOMapper {

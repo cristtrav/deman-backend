@@ -1,12 +1,12 @@
+import { ActualizarMarcaUseCase } from "@feature/marca/application/use-case/actualizar.use-case";
+import { BuscarMarcaPorNombreUseCase } from "@feature/marca/application/use-case/buscar-por-nombre.use-case";
+import { ContarMarcasUseCase } from "@feature/marca/application/use-case/contar.use-case";
+import { CrearMarcaUseCase } from "@feature/marca/application/use-case/crear.use-case";
+import { EliminarMarcaUseCase } from "@feature/marca/application/use-case/eliminar.use-case";
+import { ListarMarcasUseCase } from "@feature/marca/application/use-case/listar.use-case";
+import { ObtenerMarcaPorIdUseCase } from "@feature/marca/application/use-case/obtener-por-id.use-case";
+import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository";
 import { Provider } from "@nestjs/common";
-import { ActualizarMarcaUseCase } from "src/marca/application/use-case/actualizar.use-case";
-import { BuscarMarcaPorNombreUseCase } from "src/marca/application/use-case/buscar-por-nombre.use-case";
-import { ContarMarcasUseCase } from "src/marca/application/use-case/contar.use-case";
-import { CrearMarcaUseCase } from "src/marca/application/use-case/crear.use-case";
-import { EliminarMarcaUseCase } from "src/marca/application/use-case/eliminar.use-case";
-import { ListarMarcasUseCase } from "src/marca/application/use-case/listar.use-case";
-import { ObtenerMarcaPorIdUseCase } from "src/marca/application/use-case/obtener-por-id.use-case";
-import { MarcaRepository } from "src/marca/domain/repository/marca.repository";
 
 export default <Provider[]>[
     

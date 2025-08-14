@@ -1,7 +1,7 @@
 import { DataSourceOptions } from 'typeorm';
 import { config } from 'dotenv';
 import { join } from 'path';
-import { MarcaTypeORMModel } from 'src/marca/infrastructure/typeorm/model/marca.typeorm.model';
+import { MarcaTypeORMModel } from '@feature/marca/infrastructure/typeorm/model/marca.typeorm.model';
 
 config();
 

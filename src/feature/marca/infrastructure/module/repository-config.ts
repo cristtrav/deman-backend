@@ -1,6 +1,6 @@
 import { Provider } from "@nestjs/common";
-import { MarcaRepository } from "src/marca/domain/repository/marca.repository";
 import { MarcaTypeORMRepository } from "../typeorm/repository/marca.typeorm.repository";
+import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository";
 
 export default <Provider[]>[
     {

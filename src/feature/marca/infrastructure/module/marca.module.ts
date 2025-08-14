@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { MarcaTypeORMModel } from "../typeorm/model/marca.typeorm.model";
-import { MarcaController } from "src/marca/presentation/controller/marca.controller";
 import RepositoryConfig from "./repository-config"
 import UseCaseConfig from "./usecase-config";
+import { MarcaController } from "@feature/marca/presentation/controller/marca.controller";
 
 @Module({
     imports: [
