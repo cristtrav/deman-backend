@@ -1,6 +1,6 @@
 import { Marca } from "src/marca/domain/model/marca.entity";
 import { MarcaRepository } from "src/marca/domain/repository/marca.repository";
-import { MarcaAlreadyExistsException } from "../exception/marca-already-exists.exception";
+import { MarcaAlreadyExistsException } from "../../domain/exception/marca-already-exists.exception";
 import { NewMarca } from "src/marca/domain/model/new-marca.entity";
 
 export class CrearMarcaUseCase {

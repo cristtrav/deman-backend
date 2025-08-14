@@ -1,9 +1,11 @@
+import { RequiredFieldException } from "../exception/required-field.exception"
+
 export class NewMarca {
     private descripcion: string
     private eliminado: boolean = false
 
     constructor(descripcion: string, eliminado: boolean = false) {
-        if (descripcion === null || descripcion === undefined) throw new Error("La descripción es requerida")
+        if (descripcion === null || descripcion === undefined) throw new RequiredFieldException('Descripción')
         if (eliminado) { this.eliminado = eliminado }
         this.descripcion = descripcion
     }

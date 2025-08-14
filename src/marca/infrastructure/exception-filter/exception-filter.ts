@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import { Response } from 'express';
-import { MarcaAlreadyExistsException } from "src/marca/application/exception/marca-already-exists.exception";
+import { MarcaAlreadyExistsException } from "src/marca/domain/exception/marca-already-exists.exception";
 import { MarcaNotFoundException } from "src/marca/application/exception/marca-not-found.exception";
 
 @Catch()
