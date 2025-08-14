@@ -49,11 +49,11 @@ export class MarcaController {
         const marcaActual = MarcaDTOMapper.toDomain(marca);
         const marcaParaActualizar = await this.actualizarMarcaUseCase.execute(id, marcaActual.getDescripcion());
         const marcaActualizada = MarcaDTOMapper.toDTO(marcaParaActualizar);
-        return ApiResponseDTO.success(marcaActualizada, "Marcas listadas exitosamente");
+        return ApiResponseDTO.success(marcaActualizada, "Marca actualizada exitosamente");
     }
 
     @Delete(':id')
-    deleteReason(@Param('id', ParseIntPipe) id: number): ApiResponseDTO<void> {
+    deleteMarca(@Param('id', ParseIntPipe) id: number): ApiResponseDTO<void> {
         this.eliminarMarcaUseCase.execute(id);
         return ApiResponseDTO.success(undefined, "Marca eliminada correctamente");
     }
