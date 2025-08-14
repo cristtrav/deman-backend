@@ -1,3 +1,4 @@
+import { ApplicationException } from '@core/application/exception/application.exception';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger, ValidationError } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { DomainException } from 'src/core/domain/exception/domain.exception';
@@ -22,6 +23,14 @@ export class GlobalExceptionFilter<T> implements ExceptionFilter {
 
     //Excepciones de dominio
     if(exception instanceof DomainException){
+      return ErrorResponseDTO.error(exception.message, {
+        code: exception.code,
+        statusCode: exception.statusCode,
+        details: (exception as any).details
+      });
+    }
+
+    if(exception instanceof ApplicationException){
       return ErrorResponseDTO.error(exception.message, {
         code: exception.code,
         statusCode: exception.statusCode,
