@@ -10,7 +10,7 @@ export class BuscarMarcaPorNombreUseCase {
     async execute(descripcion: string): Promise<Marca> {
 
         const marca = await this.marcaRepository.buscarPorNombre(descripcion)
-        if (!marca) throw new MarcaNotFoundException()
+        if (!marca) throw new MarcaNotFoundException(descripcion)
         return marca
     }
 }

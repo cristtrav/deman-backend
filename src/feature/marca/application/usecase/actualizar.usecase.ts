@@ -1,7 +1,7 @@
 import { Marca } from "@feature/marca/domain/model/marca.entity";
 import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository";
 import { MarcaAlreadyExistsException } from "../../domain/exception/marca-already-exists.exception";
-import { MarcaNotFoundException } from "../exception/marca-not-found.exception";
+import { NotFoundException } from "@core/application/exception/not-found.exception";
 
 export class ActualizarMarcaUseCase {
     constructor(
@@ -10,7 +10,7 @@ export class ActualizarMarcaUseCase {
 
     async execute(id: number, descripcion: string): Promise<Marca> {
         const marcaActual = await this.marcaRepository.obtenerPorId(id)
-        if (!marcaActual) throw new MarcaNotFoundException()
+        if (!marcaActual) throw new NotFoundException("Marca", id)
 
         const descripcionNormalizada = descripcion.trim().toLowerCase()
         const marcaDuplicada = await this.marcaRepository.buscarPorNombre(descripcionNormalizada)

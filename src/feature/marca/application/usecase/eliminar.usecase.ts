@@ -1,5 +1,5 @@
+import { NotFoundException } from "@core/application/exception/not-found.exception"
 import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository"
-import { MarcaNotFoundException } from "../exception/marca-not-found.exception"
 
 export class EliminarMarcaUseCase {
     constructor(
@@ -7,7 +7,7 @@ export class EliminarMarcaUseCase {
     ) { }
     async execute(id: number): Promise<void> {
         const marca = await this.marcaRepository.obtenerPorId(id)
-        if (!marca) throw new MarcaNotFoundException()
+        if (!marca) throw new NotFoundException("Marca", id)
 
         await this.marcaRepository.eliminar(id)
     }
