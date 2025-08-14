@@ -1,6 +1,6 @@
-import { DomainException } from "./domain.exception";
+import { ApplicationException } from "./application.exception";
 
-export class NotFoundException extends DomainException{
+export class NotFoundException extends ApplicationException{
     readonly code: string = 'RESOURCE_NOT_FOUND';
     readonly statusCode: number = 404;
 
