@@ -1,10 +1,10 @@
-import { ActualizarMarcaUseCase } from "@feature/marca/application/use-case/actualizar.use-case";
-import { BuscarMarcaPorNombreUseCase } from "@feature/marca/application/use-case/buscar-por-nombre.use-case";
-import { ContarMarcasUseCase } from "@feature/marca/application/use-case/contar.use-case";
-import { CrearMarcaUseCase } from "@feature/marca/application/use-case/crear.use-case";
-import { EliminarMarcaUseCase } from "@feature/marca/application/use-case/eliminar.use-case";
-import { ListarMarcasUseCase } from "@feature/marca/application/use-case/listar.use-case";
-import { ObtenerMarcaPorIdUseCase } from "@feature/marca/application/use-case/obtener-por-id.use-case";
+import { ActualizarMarcaUseCase } from "@feature/marca/application/usecase/actualizar.usecase";
+import { BuscarMarcaPorNombreUseCase } from "@feature/marca/application/usecase/buscar-por-nombre.usecase";
+import { ContarMarcasUseCase } from "@feature/marca/application/usecase/contar.usecase";
+import { CrearMarcaUseCase } from "@feature/marca/application/usecase/crear.usecase";
+import { EliminarMarcaUseCase } from "@feature/marca/application/usecase/eliminar.usecase";
+import { ListarMarcasUseCase } from "@feature/marca/application/usecase/listar.usecase";
+import { ObtenerMarcaPorIdUseCase } from "@feature/marca/application/usecase/obtener-por-id.usecase";
 import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository";
 import { Provider } from "@nestjs/common";
 

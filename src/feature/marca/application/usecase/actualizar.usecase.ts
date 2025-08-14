@@ -3,7 +3,6 @@ import { MarcaRepository } from "@feature/marca/domain/repository/marca.reposito
 import { MarcaAlreadyExistsException } from "../../domain/exception/marca-already-exists.exception";
 import { MarcaNotFoundException } from "../exception/marca-not-found.exception";
 
-
 export class ActualizarMarcaUseCase {
     constructor(
         private readonly marcaRepository: MarcaRepository
