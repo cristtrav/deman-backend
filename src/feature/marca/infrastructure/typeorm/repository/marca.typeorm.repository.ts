@@ -36,7 +36,7 @@ export class MarcaTypeORMRepository implements MarcaRepository {
         await this.marcaRepository.update(id, { descripcion });
         const marcaActualizada = await this.marcaRepository.findOneBy({ id });
         if (!marcaActualizada) {
-            throw new MarcaNotFoundException();
+            throw new MarcaNotFoundException(descripcion);
         }
         return MarcaMapper.toDomain(marcaActualizada);
     }
@@ -44,7 +44,7 @@ export class MarcaTypeORMRepository implements MarcaRepository {
     async eliminar(id: number): Promise<void> {
         const marca = await this.marcaRepository.findOne({ where: { id } });
         if (!marca) {
-            throw new MarcaNotFoundException();
+            throw new MarcaNotFoundException("");
         }
         marca.eliminado = true;
         await this.marcaRepository.save(marca);
