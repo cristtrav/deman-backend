@@ -1,14 +1,16 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
 import { MarcaDTO } from "../dto/marca.dto";
 import { NewMarcaDTO } from "../dto/new-marca.dto";
 import { MarcaDTOMapper } from "../mapper/marca-dto.mapper";
 import { ApiResponseDTO } from "@core/presentation/dto/response/api-response.dto";
 import { EditarMarcaUseCase } from "../../application/usecase/editar.usecase";
-import { BuscarMarcaPorNombreUseCase } from "../../application/usecase/buscar-por-nombre.usecase";
 import { CrearMarcaUseCase } from "../../application/usecase/crear.usecase";
 import { EliminarMarcaUseCase } from "../../application/usecase/eliminar.usecase";
-import { ListarMarcasUseCase } from "../../application/usecase/listar.usecase";
-import { ObtenerMarcaPorIdUseCase } from "../../application/usecase/obtener-por-id.usecase";
+import { ConsultarMarcasUseCase } from "../../application/usecase/consultar.usecase";
+import { GetMarcaQueryParamDTO } from "../dto/http/get-marca-query-param.dto";
+import { GetQueryParamsMapper } from "@core/presentation/mapper/get-query-params.mapper";
+import { PaginationApiMapper } from "@core/presentation/mapper/pagination-api.mapper";
+import { ConsultarMarcaPorIdUseCase } from "../../application/usecase/consultar-por-id.usecase";
 
 @Controller('marcas')
 export class MarcaController {
@@ -16,9 +18,8 @@ export class MarcaController {
         private readonly crearMarcaUseCase: CrearMarcaUseCase,
         private readonly editarMarcaUseCase: EditarMarcaUseCase,
         private readonly eliminarMarcaUseCase: EliminarMarcaUseCase,
-        private readonly obtenerMarcaPorIdUseCase: ObtenerMarcaPorIdUseCase,
-        private readonly buscarMarcaPorNombreUseCase: BuscarMarcaPorNombreUseCase,
-        private readonly listarMarcasUseCase: ListarMarcasUseCase,
+        private readonly consultarMarcasUseCase: ConsultarMarcasUseCase,
+        private readonly consultarMarcaPorIdUseCase: ConsultarMarcaPorIdUseCase
     ) { }
 
     @Post()
@@ -29,24 +30,32 @@ export class MarcaController {
                 descripcion: newMarcaDto.descripcion
             }
         });
-        return ApiResponseDTO.success({data: MarcaDTOMapper.toDTO(result.data), message: "Marca creada exitosamente"});
+        return ApiResponseDTO.success({
+            data: MarcaDTOMapper.toDTO(result.data),
+            message: "Marca creada exitosamente"
+        });
     }
 
     @Get()
-    async listarMarcas(): Promise<ApiResponseDTO<MarcaDTO[]>> {
-        const marcaDTO = (await this.listarMarcasUseCase.execute()).map(marca => MarcaDTOMapper.toDTO(marca));
-        return ApiResponseDTO.success({data: marcaDTO, message: "Marcas listadas exitosamente"});
+    async consultarMarcas(
+        @Query() queryParams: GetMarcaQueryParamDTO
+    ): Promise<ApiResponseDTO<MarcaDTO[]>> {
+        const result = await this.consultarMarcasUseCase.execute(GetQueryParamsMapper.toQueryContract(queryParams));
+        return ApiResponseDTO.success({
+            data: result.data.map(m => MarcaDTOMapper.toDTO(m)),
+            message: "Marcas listadas exitosamente",
+            pagination: result.page ? PaginationApiMapper.toApiResponsePaginationDTO(result.page) : undefined
+        });
     }
 
     @Get(':id')
     async obtenerMarcaPorId(@Param('id', ParseIntPipe) id: number): Promise<ApiResponseDTO<MarcaDTO>> {
-        const marca = MarcaDTOMapper.toDTO(await this.obtenerMarcaPorIdUseCase.execute(id));
-        return ApiResponseDTO.success({data: marca, message: "Marca obtenida exitosamente"});
-    }
-    @Get('nombre/:descripcion')
-    async buscarMarcaPorNombre(@Param('descripcion') descripcion: string): Promise<ApiResponseDTO<MarcaDTO>> {
-        const marca = MarcaDTOMapper.toDTO( await this.buscarMarcaPorNombreUseCase.execute(descripcion));
-        return ApiResponseDTO.success({data: marca, message: "Marca obtenida exitosamente"});
+        const marca = await this.consultarMarcaPorIdUseCase.execute(id);
+        const marcaDto = MarcaDTOMapper.toDTO(marca);
+        return ApiResponseDTO.success({
+            data: marcaDto,
+            message: "Marca obtenida exitosamente"
+        });
     }
 
     @Put(':id')
@@ -57,7 +66,10 @@ export class MarcaController {
                 descripcion: marcaDto.descripcion
             }
         })
-        return ApiResponseDTO.success({data: MarcaDTOMapper.toDTO(result.data), message: "Marca editada exitosamente"});
+        return ApiResponseDTO.success({
+            data: MarcaDTOMapper.toDTO(result.data),
+            message: "Marca editada exitosamente"
+        });
     }
 
     @Delete(':id')
@@ -65,6 +77,6 @@ export class MarcaController {
         await this.eliminarMarcaUseCase.execute({
             data: { id }
         });
-        return ApiResponseDTO.success({message: "Marca eliminada correctamente"});
+        return ApiResponseDTO.success({ message: "Marca eliminada correctamente" });
     }
 }

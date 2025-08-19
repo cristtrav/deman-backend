@@ -1,4 +1,3 @@
-import { MarcaAlreadyExistsException } from "../../domain/exception/marca-already-exists.exception";
 import { NotFoundException } from "@core/application/exception/not-found.exception";
 import { Marca } from "../../domain/model/marca.entity";
 import { MarcaRepository } from "../../domain/repository/marca.repository";
@@ -16,11 +15,6 @@ export class EditarMarcaUseCase extends BaseUseCase<EditarMarcaCommand, ResultCo
         if (!marcaActual) throw new NotFoundException("Marca", command.data.id);
 
         const marcaEditada = new Marca(command.data.id, command.data.descripcion);
-
-        const descripcionNormalizada = command.data.descripcion.trim().toLowerCase()
-        const marcaDuplicada = await this.marcaRepository.buscarPorNombre(descripcionNormalizada)
-
-        if (marcaDuplicada && marcaDuplicada.id !== command.data.id) throw new MarcaAlreadyExistsException(command.data.descripcion);
         return { data: await this.marcaRepository.edit(marcaEditada)}
     }
 }

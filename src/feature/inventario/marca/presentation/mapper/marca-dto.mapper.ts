@@ -5,8 +5,7 @@ export class MarcaDTOMapper {
     static toDTO (marca: Marca): MarcaDTO{
         return {
             id: marca.id,
-            descripcion: marca.descripcion,
-            eliminado : false
+            descripcion: marca.descripcion
         }
     }
 

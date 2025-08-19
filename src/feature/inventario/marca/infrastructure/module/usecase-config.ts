@@ -1,49 +1,36 @@
 import { Provider } from "@nestjs/common";
 import { EditarMarcaUseCase } from "../../application/usecase/editar.usecase";
-import { BuscarMarcaPorNombreUseCase } from "../../application/usecase/buscar-por-nombre.usecase";
-import { ContarMarcasUseCase } from "../../application/usecase/contar.usecase";
 import { CrearMarcaUseCase } from "../../application/usecase/crear.usecase";
 import { EliminarMarcaUseCase } from "../../application/usecase/eliminar.usecase";
-import { ListarMarcasUseCase } from "../../application/usecase/listar.usecase";
-import { ObtenerMarcaPorIdUseCase } from "../../application/usecase/obtener-por-id.usecase";
+import { ConsultarMarcasUseCase } from "../../application/usecase/consultar.usecase";
 import { MarcaRepository } from "../../domain/repository/marca.repository";
+import { MarcaReadRepository } from "../../application/read-repository/marca.read-repository";
+import { ConsultarMarcaPorIdUseCase } from "../../application/usecase/consultar-por-id.usecase";
 
 export default <Provider[]>[
-    
-    {
-        provide: ContarMarcasUseCase,
-        useFactory: (marcaRepository: MarcaRepository) => new ContarMarcasUseCase(marcaRepository),
-        inject: [ MarcaRepository ]
-    },
     {
         provide: CrearMarcaUseCase,
         useFactory: (marcaRepository: MarcaRepository) => new CrearMarcaUseCase(marcaRepository),
-        inject: [ MarcaRepository ]
-    },
-    {
-        provide: ObtenerMarcaPorIdUseCase,
-        useFactory: (marcaRepository: MarcaRepository) => new ObtenerMarcaPorIdUseCase(marcaRepository),
-        inject: [ MarcaRepository ]
+        inject: [MarcaRepository]
     },
     {
         provide: EliminarMarcaUseCase,
         useFactory: (marcaRepository: MarcaRepository) => new EliminarMarcaUseCase(marcaRepository),
-        inject: [ MarcaRepository ]
+        inject: [MarcaRepository]
     },
     {
         provide: EditarMarcaUseCase,
         useFactory: (marcaRepository: MarcaRepository) => new EditarMarcaUseCase(marcaRepository),
-        inject: [ MarcaRepository ]
+        inject: [MarcaRepository]
     },
     {
-        provide: ListarMarcasUseCase,
-        useFactory: (marcaRepository: MarcaRepository) => new ListarMarcasUseCase(marcaRepository),
-        inject: [ MarcaRepository ]
+        provide: ConsultarMarcasUseCase,
+        useFactory: (marcaReadRepository: MarcaReadRepository) => new ConsultarMarcasUseCase(marcaReadRepository),
+        inject: [MarcaReadRepository]
     },
     {
-        provide: BuscarMarcaPorNombreUseCase,
-        useFactory: (marcaRepository: MarcaRepository) => new BuscarMarcaPorNombreUseCase(marcaRepository),
-        inject: [ MarcaRepository ]
-    },
-    
+        provide: ConsultarMarcaPorIdUseCase,
+        useFactory: (marcaRepository: MarcaRepository) => new ConsultarMarcaPorIdUseCase(marcaRepository),
+        inject: [MarcaRepository]
+    }
 ]

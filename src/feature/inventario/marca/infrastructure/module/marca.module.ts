@@ -3,6 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { MarcaTypeORMModel } from "../typeorm/model/marca.typeorm.model";
 import RepositoryConfig from "./repository-config"
 import UseCaseConfig from "./usecase-config";
+import ReadRepositoryConfig from "./read-repository.config";
 import { MarcaController } from "../../presentation/controller/marca.controller";
 
 @Module({
@@ -13,6 +14,7 @@ import { MarcaController } from "../../presentation/controller/marca.controller"
     ],
     providers: [
         ...RepositoryConfig,
+        ...ReadRepositoryConfig,
         ...UseCaseConfig
     ],
     controllers: [
