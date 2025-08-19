@@ -13,7 +13,7 @@ export class MarcaMapper {
     static toTypeORMModel(marca: NewMarca): MarcaTypeORMModel {
         const marcaTypeORM = new MarcaTypeORMModel();
         marcaTypeORM.descripcion = marca.descripcion;
-        marcaTypeORM.eliminado = true;
+        marcaTypeORM.eliminado = false;
         return marcaTypeORM;
     }
 }

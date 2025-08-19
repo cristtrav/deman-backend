@@ -22,9 +22,14 @@ export class MarcaController {
     ) { }
 
     @Post()
-    async crearMarca(@Body() marcaDTO: NewMarcaDTO): Promise<ApiResponseDTO<MarcaDTO>> {
-        const newMarca = MarcaDTOMapper.toDTO(await this.crearMarcaUseCase.execute(marcaDTO.descripcion))
-        return ApiResponseDTO.success({data: newMarca, message: "Marca creada exitosamente"});
+    async crearMarca(@Body() newMarcaDto: NewMarcaDTO): Promise<ApiResponseDTO<MarcaDTO>> {
+        const result = await this.crearMarcaUseCase.execute({
+            data: {
+                id: newMarcaDto.id,
+                descripcion: newMarcaDto.descripcion
+            }
+        });
+        return ApiResponseDTO.success({data: MarcaDTOMapper.toDTO(result.data), message: "Marca creada exitosamente"});
     }
 
     @Get()
