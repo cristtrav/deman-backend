@@ -61,8 +61,10 @@ export class MarcaController {
     }
 
     @Delete(':id')
-    deleteMarca(@Param('id', ParseIntPipe) id: number): ApiResponseDTO<void> {
-        this.eliminarMarcaUseCase.execute(id);
+    async deleteMarca(@Param('id', ParseIntPipe) id: number): Promise<ApiResponseDTO<void>> {
+        await this.eliminarMarcaUseCase.execute({
+            data: { id }
+        });
         return ApiResponseDTO.success({message: "Marca eliminada correctamente"});
     }
 }
