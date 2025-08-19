@@ -12,52 +12,50 @@ import { NewMarca } from "@feature/inventario/marca/domain/model/new-marca.entit
 export class MarcaTypeORMRepository implements MarcaRepository {
     constructor(
         @InjectRepository(MarcaTypeORMModel)
-        private readonly marcaRepository: Repository<MarcaTypeORMModel>
+        private readonly marcaTypeOrmRepository: Repository<MarcaTypeORMModel>
     ) { }
-    async create(marca: NewMarca): Promise<Marca> {
-        const marcaORM = await this.marcaRepository.save(MarcaMapper.toTypeORMModel(marca))
-        return MarcaMapper.toDomain(marcaORM)
+    async create(newMarca: NewMarca): Promise<Marca> {
+        const marcaOrm = await this.marcaTypeOrmRepository.save(MarcaMapper.toTypeORMModel(newMarca))
+        return MarcaMapper.toDomain(marcaOrm)
     }
 
     async listar(): Promise<Marca[]> {
         console.log("type Repository")
-        console.log(this.marcaRepository.find({ where: { eliminado: false } }))
-        const listaMarcas = await this.marcaRepository.find({ where: { eliminado: false } })
+        console.log(this.marcaTypeOrmRepository.find({ where: { eliminado: false } }))
+        const listaMarcas = await this.marcaTypeOrmRepository.find({ where: { eliminado: false } })
         console.log("lista de marcas", listaMarcas)
         return listaMarcas.map(marcaORM => MarcaMapper.toDomain(marcaORM))
     }
 
     async findById(id: number): Promise<Marca | null> {
-        const marcaEntity = await this.marcaRepository.findOne({ where: { id, eliminado: false } })
+        const marcaEntity = await this.marcaTypeOrmRepository.findOne({ where: { id, eliminado: false } })
         return marcaEntity ? MarcaMapper.toDomain(marcaEntity) : null
     }
 
-    async edit(id: number, descripcion: string): Promise<Marca> {
-        await this.marcaRepository.update(id, { descripcion });
-        const marcaActualizada = await this.marcaRepository.findOneBy({ id });
-        if (!marcaActualizada) {
-            throw new NotFoundException("Marca", id);
-        }
-        return MarcaMapper.toDomain(marcaActualizada);
+    async edit(marca: Marca): Promise<Marca> {
+        if(!await this.marcaTypeOrmRepository.findOneBy({id: marca.id}))
+            throw new NotFoundException("Marca", marca.id);
+        const savedMarcaOrm = await this.marcaTypeOrmRepository.save(marca);
+        return MarcaMapper.toDomain(savedMarcaOrm);
     }
 
     async delete(id: number): Promise<void> {
-        const marca = await this.marcaRepository.findOne({ where: { id } });
+        const marca = await this.marcaTypeOrmRepository.findOne({ where: { id } });
         if (!marca) {
             throw new NotFoundException("Marca", id);
         }
         marca.eliminado = true;
-        await this.marcaRepository.save(marca);
+        await this.marcaTypeOrmRepository.save(marca);
     }
 
     contar(): Promise<number> {
-        return this.marcaRepository.count();
+        return this.marcaTypeOrmRepository.count();
     }
 
     async buscarPorNombre(nombre: string): Promise<Marca | null> {
     const nombreNormalizado = nombre.trim().toLowerCase();
 
-    const marcaEntity = await this.marcaRepository.findOne({
+    const marcaEntity = await this.marcaTypeOrmRepository.findOne({
         where: { descripcion: ILike(`%${nombreNormalizado}%`), eliminado: false },
     });
 

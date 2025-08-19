@@ -3,7 +3,7 @@ import { MarcaDTO } from "../dto/marca.dto";
 import { NewMarcaDTO } from "../dto/new-marca.dto";
 import { MarcaDTOMapper } from "../mapper/marca-dto.mapper";
 import { ApiResponseDTO } from "@core/presentation/dto/response/api-response.dto";
-import { ActualizarMarcaUseCase } from "../../application/usecase/actualizar.usecase";
+import { EditarMarcaUseCase } from "../../application/usecase/editar.usecase";
 import { BuscarMarcaPorNombreUseCase } from "../../application/usecase/buscar-por-nombre.usecase";
 import { CrearMarcaUseCase } from "../../application/usecase/crear.usecase";
 import { EliminarMarcaUseCase } from "../../application/usecase/eliminar.usecase";
@@ -14,7 +14,7 @@ import { ObtenerMarcaPorIdUseCase } from "../../application/usecase/obtener-por-
 export class MarcaController {
     constructor(
         private readonly crearMarcaUseCase: CrearMarcaUseCase,
-        private readonly actualizarMarcaUseCase: ActualizarMarcaUseCase,
+        private readonly editarMarcaUseCase: EditarMarcaUseCase,
         private readonly eliminarMarcaUseCase: EliminarMarcaUseCase,
         private readonly obtenerMarcaPorIdUseCase: ObtenerMarcaPorIdUseCase,
         private readonly buscarMarcaPorNombreUseCase: BuscarMarcaPorNombreUseCase,
@@ -50,11 +50,14 @@ export class MarcaController {
     }
 
     @Put(':id')
-    async actualizarMarca(@Param('id', ParseIntPipe) id: number, @Body() marca: MarcaDTO): Promise<ApiResponseDTO<MarcaDTO>> {
-        const marcaActual = MarcaDTOMapper.toDomain(marca);
-        const marcaParaActualizar = await this.actualizarMarcaUseCase.execute(id, marcaActual.descripcion);
-        const marcaActualizada = MarcaDTOMapper.toDTO(marcaParaActualizar);
-        return ApiResponseDTO.success({data: marcaActualizada, message: "Marca actualizada exitosamente"});
+    async actualizarMarca(@Param('id', ParseIntPipe) id: number, @Body() marcaDto: MarcaDTO): Promise<ApiResponseDTO<MarcaDTO>> {
+        const result = await this.editarMarcaUseCase.execute({
+            data: {
+                id: marcaDto.id,
+                descripcion: marcaDto.descripcion
+            }
+        })
+        return ApiResponseDTO.success({data: MarcaDTOMapper.toDTO(result.data), message: "Marca editada exitosamente"});
     }
 
     @Delete(':id')

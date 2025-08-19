@@ -1,5 +1,5 @@
 import { Provider } from "@nestjs/common";
-import { ActualizarMarcaUseCase } from "../../application/usecase/actualizar.usecase";
+import { EditarMarcaUseCase } from "../../application/usecase/editar.usecase";
 import { BuscarMarcaPorNombreUseCase } from "../../application/usecase/buscar-por-nombre.usecase";
 import { ContarMarcasUseCase } from "../../application/usecase/contar.usecase";
 import { CrearMarcaUseCase } from "../../application/usecase/crear.usecase";
@@ -31,8 +31,8 @@ export default <Provider[]>[
         inject: [ MarcaRepository ]
     },
     {
-        provide: ActualizarMarcaUseCase,
-        useFactory: (marcaRepository: MarcaRepository) => new ActualizarMarcaUseCase(marcaRepository),
+        provide: EditarMarcaUseCase,
+        useFactory: (marcaRepository: MarcaRepository) => new EditarMarcaUseCase(marcaRepository),
         inject: [ MarcaRepository ]
     },
     {
