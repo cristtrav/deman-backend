@@ -1,7 +1,7 @@
 import { BaseUseCase } from "@core/application/usecase/base.usecase";
 import { QueryContract } from "@core/application/contract/query/query.contract";
-import { ConsultarMarcasResult } from "../../contract/result/consultar-marcas.result";
 import { MarcaReadRepository } from "../read-repository/marca.read-repository";
+import { ConsultarMarcasResult } from "../contract/result/consultar-marcas.result";
 
 export class ConsultarMarcasUseCase extends BaseUseCase<QueryContract, ConsultarMarcasResult> {
     

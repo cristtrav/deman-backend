@@ -2,8 +2,8 @@ import { BaseUseCase } from "@core/application/usecase/base.usecase";
 import { Marca } from "../../domain/model/marca.entity";
 import { NewMarca } from "../../domain/model/new-marca.entity";
 import { MarcaRepository } from "../../domain/repository/marca.repository";
-import { CrearMarcaCommand } from "../../contract/command/crear-marca.command";
 import { ResultContract } from "@core/application/contract/result/result.contract";
+import { CrearMarcaCommand } from "../contract/command/crear-marca.command";
 
 export class CrearMarcaUseCase extends BaseUseCase<CrearMarcaCommand, ResultContract<Marca>>{
     constructor(
