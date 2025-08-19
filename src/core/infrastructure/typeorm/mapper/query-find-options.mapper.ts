@@ -1,9 +1,16 @@
-import { QueryFilterTypeORMMapping } from "@core/infrastructure/contract/query/query-filter.mapping.contract";
+import { EntityTypeORMMapping } from "@core/infrastructure/typeorm/mapping/entity-typeorm.mapping.contract";
 import { QueryContract } from "@core/application/contract/query/query.contract";
 import { Equal, FindManyOptions, ILike, LessThanOrEqual, MoreThanOrEqual, Not } from "typeorm";
-
-export class QueryFindManyOptionsMapper{
-    static toFindOptions<E, O>(query: QueryContract, fieldMapping: QueryFilterTypeORMMapping<E, O>): FindManyOptions<O>{
+/**
+ * Esta clase es para convertir entre QueryContract (capa application)
+ * y FindOptions de TypeORM
+ */
+export class QueryFindOptionsMapper{
+    /**
+     * Convierte un QueryContract a un FindManyOptions
+     * usando los mappings de atributos de la entidad
+     */
+    static toFindOptions<E, O>(query: QueryContract, fieldMapping: EntityTypeORMMapping<E, O>): FindManyOptions<O>{
         const options: FindManyOptions<O> = {}
         if(query.sort){
             options.order = { }
@@ -11,9 +18,7 @@ export class QueryFindManyOptionsMapper{
         }
         if(query.filters){
             options.where = {}
-            
-            for(let filter of query.filters){
-                console.log('WHERE VALUE', filter.value)
+            for(let filter of query.filters){                
                 if(filter.operator == 'eq')
                     options.where[`${fieldMapping[filter.field]}`] = Equal(filter.value) ;
                 else if(filter.operator == 'like')

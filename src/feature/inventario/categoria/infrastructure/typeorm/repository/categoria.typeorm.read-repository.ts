@@ -7,7 +7,7 @@ import { ConsultarCategoriasResult } from "@feature/inventario/categoria/applica
 import { QueryContract } from "@core/application/contract/query/query.contract";
 import { Categoria } from "@feature/inventario/categoria/domain/model/categoria.entity";
 import { CATEGORIA_TYPEORM_MAPPING } from "../mapping/categoria.typeorm.mapping";
-import { QueryFindManyOptionsMapper } from "@core/infrastructure/mapper/query-find-many-options.mapper";
+import { QueryFindOptionsMapper } from "@core/infrastructure/typeorm/mapper/query-find-options.mapper";
 
 export class CategoriaTypeORMReadRepository implements CategoriaReadRepository{
     
@@ -17,7 +17,7 @@ export class CategoriaTypeORMReadRepository implements CategoriaReadRepository{
     ){}
 
     async findMany(query: QueryContract): Promise<ConsultarCategoriasResult> {
-        const options = QueryFindManyOptionsMapper.toFindOptions<Categoria, CategoriaTypeORMModel>(query, CATEGORIA_TYPEORM_MAPPING);
+        const options = QueryFindOptionsMapper.toFindOptions<Categoria, CategoriaTypeORMModel>(query, CATEGORIA_TYPEORM_MAPPING);
         const data = (await this.categoriaTypeOrmRepo.find(options)).map(c => CategoriaTypeORMMapper.toDomain(c));
         const result: ConsultarCategoriasResult = { data };
         if(query.pagination) result.page = {
