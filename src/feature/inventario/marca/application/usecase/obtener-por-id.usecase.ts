@@ -8,7 +8,7 @@ export class ObtenerMarcaPorIdUseCase {
     ) { }
 
     async execute(id: number): Promise<Marca> {
-        const marca = await this.marcaRepository.obtenerPorId(id)
+        const marca = await this.marcaRepository.findById(id)
         if (!marca) throw new NotFoundException("Marca", id);
         return marca
     }

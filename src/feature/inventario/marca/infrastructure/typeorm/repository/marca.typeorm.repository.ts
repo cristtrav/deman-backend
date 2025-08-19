@@ -14,7 +14,7 @@ export class MarcaTypeORMRepository implements MarcaRepository {
         @InjectRepository(MarcaTypeORMModel)
         private readonly marcaRepository: Repository<MarcaTypeORMModel>
     ) { }
-    async crear(marca: NewMarca): Promise<Marca> {
+    async create(marca: NewMarca): Promise<Marca> {
         const marcaORM = await this.marcaRepository.save(MarcaMapper.toTypeORMModel(marca))
         return MarcaMapper.toDomain(marcaORM)
     }
@@ -27,12 +27,12 @@ export class MarcaTypeORMRepository implements MarcaRepository {
         return listaMarcas.map(marcaORM => MarcaMapper.toDomain(marcaORM))
     }
 
-    async obtenerPorId(id: number): Promise<Marca | null> {
+    async findById(id: number): Promise<Marca | null> {
         const marcaEntity = await this.marcaRepository.findOne({ where: { id, eliminado: false } })
         return marcaEntity ? MarcaMapper.toDomain(marcaEntity) : null
     }
 
-    async actualizar(id: number, descripcion: string): Promise<Marca> {
+    async edit(id: number, descripcion: string): Promise<Marca> {
         await this.marcaRepository.update(id, { descripcion });
         const marcaActualizada = await this.marcaRepository.findOneBy({ id });
         if (!marcaActualizada) {
@@ -41,7 +41,7 @@ export class MarcaTypeORMRepository implements MarcaRepository {
         return MarcaMapper.toDomain(marcaActualizada);
     }
 
-    async eliminar(id: number): Promise<void> {
+    async delete(id: number): Promise<void> {
         const marca = await this.marcaRepository.findOne({ where: { id } });
         if (!marca) {
             throw new NotFoundException("Marca", id);

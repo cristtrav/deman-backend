@@ -9,13 +9,13 @@ export class ActualizarMarcaUseCase {
     ) { }
 
     async execute(id: number, descripcion: string): Promise<Marca> {
-        const marcaActual = await this.marcaRepository.obtenerPorId(id)
+        const marcaActual = await this.marcaRepository.findById(id)
         if (!marcaActual) throw new NotFoundException("Marca", id)
 
         const descripcionNormalizada = descripcion.trim().toLowerCase()
         const marcaDuplicada = await this.marcaRepository.buscarPorNombre(descripcionNormalizada)
 
         if (marcaDuplicada && marcaDuplicada.id !== id) throw new MarcaAlreadyExistsException(descripcion)
-        return this.marcaRepository.actualizar(id, descripcion)
+        return this.marcaRepository.edit(id, descripcion)
     }
 }

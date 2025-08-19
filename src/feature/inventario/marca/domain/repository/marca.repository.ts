@@ -2,11 +2,13 @@ import { Marca } from "../model/marca.entity";
 import { NewMarca } from "../model/new-marca.entity";
 
     export abstract class MarcaRepository {
-        abstract crear(marca: NewMarca): Promise<Marca>;
+        abstract create(marca: NewMarca): Promise<Marca>;
+        abstract edit(id: number, descripcion:string): Promise<Marca>;
+        abstract delete(id: number): Promise<void>;
+        abstract findById(id: number): Promise<Marca | null>;
+        
+        //A refactorizar
         abstract listar(): Promise<Marca[]>;
-        abstract obtenerPorId(id: number): Promise<Marca | null>;
-        abstract actualizar(id: number, descripcion:string): Promise<Marca>;
-        abstract eliminar(id: number): Promise<void>;
         abstract contar(): Promise<number>;
         abstract buscarPorNombre(nombre: string): Promise<Marca | null>;
     }

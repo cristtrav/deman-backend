@@ -6,9 +6,9 @@ export class EliminarMarcaUseCase {
         private readonly marcaRepository: MarcaRepository
     ) { }
     async execute(id: number): Promise<void> {
-        const marca = await this.marcaRepository.obtenerPorId(id)
+        const marca = await this.marcaRepository.findById(id)
         if (!marca) throw new NotFoundException("Marca", id)
 
-        await this.marcaRepository.eliminar(id)
+        await this.marcaRepository.delete(id)
     }
 }

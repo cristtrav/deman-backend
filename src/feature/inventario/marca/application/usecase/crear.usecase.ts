@@ -15,6 +15,6 @@ export class CrearMarcaUseCase {
         if (marcaExistente) throw new MarcaAlreadyExistsException(descripcion)
 
         const nuevaMarca = new NewMarca(descripcion.trim())
-        return this.marcaRepository.crear(nuevaMarca)
+        return this.marcaRepository.create(nuevaMarca)
     }
 }
