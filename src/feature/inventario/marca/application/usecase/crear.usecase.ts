@@ -1,7 +1,7 @@
-import { Marca } from "@feature/marca/domain/model/marca.entity";
-import { NewMarca } from "@feature/marca/domain/model/new-marca.entity";
-import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository";
 import { MarcaAlreadyExistsException } from "../../domain/exception/marca-already-exists.exception";
+import { Marca } from "../../domain/model/marca.entity";
+import { NewMarca } from "../../domain/model/new-marca.entity";
+import { MarcaRepository } from "../../domain/repository/marca.repository";
 
 export class CrearMarcaUseCase {
     constructor(

@@ -1,21 +1,19 @@
-import { Marca } from "@feature/marca/domain/model/marca.entity"
+import { Marca } from "../../domain/model/marca.entity"
 import { MarcaDTO } from "../dto/marca.dto"
 
 export class MarcaDTOMapper {
     static toDTO (marca: Marca): MarcaDTO{
-        console.log("mapper")
         return {
-            id: marca.getId(),
-            descripcion: marca.getDescripcion(),
-            eliminado : marca.isEliminado()
+            id: marca.id,
+            descripcion: marca.descripcion,
+            eliminado : false
         }
     }
 
     static toDomain(marcaDTO: MarcaDTO): Marca{
         return new Marca(
             marcaDTO.id,
-            marcaDTO.descripcion,
-            marcaDTO.eliminado
+            marcaDTO.descripcion            
         )
     }
 }

@@ -1,5 +1,5 @@
-import { Marca } from "@feature/marca/domain/model/marca.entity";
-import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository";
+import { Marca } from "../../domain/model/marca.entity";
+import { MarcaRepository } from "../../domain/repository/marca.repository";
 
 export class ListarMarcasUseCase {
 
@@ -8,9 +8,7 @@ export class ListarMarcasUseCase {
     ) { }
 
     public async execute(): Promise<Marca[]> {
-        console.log("caso de uso")
         const listaMarcas = await this.marcaRepository.listar();
-        console.log(listaMarcas)
         return listaMarcas;
     }
 }

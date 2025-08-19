@@ -1,5 +1,5 @@
-import { Marca } from "@feature/marca/domain/model/marca.entity"
-import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository"
+import { Marca } from "../../domain/model/marca.entity"
+import { MarcaRepository } from "../../domain/repository/marca.repository"
 import { MarcaNotFoundException } from "../exception/marca-not-found.exception"
 
 export class BuscarMarcaPorNombreUseCase {

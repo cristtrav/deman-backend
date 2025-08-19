@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { APP_FILTER } from '@nestjs/core';
 import { DatabaseModule } from '@core/infrastructure/database/database.module';
 import { GlobalExceptionFilter } from '@core/infrastructure/filter/global-exception/global-exception.filter';
-import { MarcaModule } from '@feature/marca/infrastructure/module/marca.module';
 import { CategoriaModule } from './feature/inventario/categoria/infrastructure/module/categoria.module';
+import { MarcaModule } from '@feature/inventario/marca/infrastructure/module/marca.module';
 
 @Module({
   imports: [

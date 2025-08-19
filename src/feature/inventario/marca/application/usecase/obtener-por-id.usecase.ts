@@ -1,6 +1,6 @@
-import { Marca } from "@feature/marca/domain/model/marca.entity"
-import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository"
 import { NotFoundException } from "@core/application/exception/not-found.exception"
+import { Marca } from "../../domain/model/marca.entity";
+import { MarcaRepository } from "../../domain/repository/marca.repository";
 
 export class ObtenerMarcaPorIdUseCase {
     constructor(

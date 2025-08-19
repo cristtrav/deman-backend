@@ -3,12 +3,12 @@ import { MarcaDTO } from "../dto/marca.dto";
 import { NewMarcaDTO } from "../dto/new-marca.dto";
 import { MarcaDTOMapper } from "../mapper/marca-dto.mapper";
 import { ApiResponseDTO } from "@core/presentation/dto/response/api-response.dto";
-import { ActualizarMarcaUseCase } from "@feature/marca/application/usecase/actualizar.usecase";
-import { BuscarMarcaPorNombreUseCase } from "@feature/marca/application/usecase/buscar-por-nombre.usecase";
-import { CrearMarcaUseCase } from "@feature/marca/application/usecase/crear.usecase";
-import { EliminarMarcaUseCase } from "@feature/marca/application/usecase/eliminar.usecase";
-import { ListarMarcasUseCase } from "@feature/marca/application/usecase/listar.usecase";
-import { ObtenerMarcaPorIdUseCase } from "@feature/marca/application/usecase/obtener-por-id.usecase";
+import { ActualizarMarcaUseCase } from "../../application/usecase/actualizar.usecase";
+import { BuscarMarcaPorNombreUseCase } from "../../application/usecase/buscar-por-nombre.usecase";
+import { CrearMarcaUseCase } from "../../application/usecase/crear.usecase";
+import { EliminarMarcaUseCase } from "../../application/usecase/eliminar.usecase";
+import { ListarMarcasUseCase } from "../../application/usecase/listar.usecase";
+import { ObtenerMarcaPorIdUseCase } from "../../application/usecase/obtener-por-id.usecase";
 
 @Controller('marcas')
 export class MarcaController {
@@ -47,7 +47,7 @@ export class MarcaController {
     @Put(':id')
     async actualizarMarca(@Param('id', ParseIntPipe) id: number, @Body() marca: MarcaDTO): Promise<ApiResponseDTO<MarcaDTO>> {
         const marcaActual = MarcaDTOMapper.toDomain(marca);
-        const marcaParaActualizar = await this.actualizarMarcaUseCase.execute(id, marcaActual.getDescripcion());
+        const marcaParaActualizar = await this.actualizarMarcaUseCase.execute(id, marcaActual.descripcion);
         const marcaActualizada = MarcaDTOMapper.toDTO(marcaParaActualizar);
         return ApiResponseDTO.success({data: marcaActualizada, message: "Marca actualizada exitosamente"});
     }

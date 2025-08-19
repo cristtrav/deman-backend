@@ -2,11 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { MarcaTypeORMModel } from "../model/marca.typeorm.model";
 import { ILike, Repository } from "typeorm";
-import { Marca } from "@feature/marca/domain/model/marca.entity";
-import { NewMarca } from "@feature/marca/domain/model/new-marca.entity";
-import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository";
 import { MarcaMapper } from "../../mapper/marca.mapper";
 import { NotFoundException } from "@core/application/exception/not-found.exception";
+import { MarcaRepository } from "@feature/inventario/marca/domain/repository/marca.repository";
+import { Marca } from "@feature/inventario/marca/domain/model/marca.entity";
+import { NewMarca } from "@feature/inventario/marca/domain/model/new-marca.entity";
 
 @Injectable()
 export class MarcaTypeORMRepository implements MarcaRepository {

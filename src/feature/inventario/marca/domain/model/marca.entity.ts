@@ -1,19 +1,13 @@
 import { MarcaRequiredFieldException } from "../exception/marca-required-field.exception"
 
 export class Marca {
-    private id: number
-    private descripcion: string
-    private eliminado: boolean = false
+    readonly id: number
+    readonly descripcion: string
 
-    constructor(id: number, descripcion: string, eliminado: boolean = false) {
+    constructor(id: number, descripcion: string) {
         if (id === null || id === undefined) throw new MarcaRequiredFieldException('ID');
         if (descripcion === null || descripcion === undefined) throw new MarcaRequiredFieldException('Descripción');
-        if (eliminado) { this.eliminado = eliminado }
         this.id = id
         this.descripcion = descripcion
     }
-
-    getId(): number { return this.id }
-    getDescripcion(): string { return this.descripcion }
-    isEliminado(): boolean { return this.eliminado }
 }
