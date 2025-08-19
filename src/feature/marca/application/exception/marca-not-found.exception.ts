@@ -6,7 +6,7 @@ export class MarcaNotFoundException extends ApplicationException {
     
     constructor(descripcion: string) {
       super(`No se encontró la marca '${descripcion}'`);
-      this.code = 'NOT_FOUND_EXCEPTION';
+      this.code = 'RESOURCE_NOT_FOUND';
       this.statusCode = 404;
     }
   }

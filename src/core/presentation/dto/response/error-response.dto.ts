@@ -1,6 +1,6 @@
-import { ResponseBase } from "./response-base";
+import { BaseApiResponse } from "./base-api-response";
 
-export class ErrorResponseDTO extends ResponseBase { 
+export class ErrorResponseDTO extends BaseApiResponse { 
     readonly error: ErrorMetadata;
 
     private constructor(message: string, error: ErrorMetadata){

@@ -2,11 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { MarcaTypeORMModel } from "../model/marca.typeorm.model";
 import { ILike, Repository } from "typeorm";
-import { MarcaNotFoundException } from "@feature/marca/application/exception/marca-not-found.exception";
 import { Marca } from "@feature/marca/domain/model/marca.entity";
 import { NewMarca } from "@feature/marca/domain/model/new-marca.entity";
 import { MarcaRepository } from "@feature/marca/domain/repository/marca.repository";
 import { MarcaMapper } from "../../mapper/marca.mapper";
+import { NotFoundException } from "@core/application/exception/not-found.exception";
 
 @Injectable()
 export class MarcaTypeORMRepository implements MarcaRepository {
@@ -36,7 +36,7 @@ export class MarcaTypeORMRepository implements MarcaRepository {
         await this.marcaRepository.update(id, { descripcion });
         const marcaActualizada = await this.marcaRepository.findOneBy({ id });
         if (!marcaActualizada) {
-            throw new MarcaNotFoundException();
+            throw new NotFoundException("Marca", id);
         }
         return MarcaMapper.toDomain(marcaActualizada);
     }
@@ -44,7 +44,7 @@ export class MarcaTypeORMRepository implements MarcaRepository {
     async eliminar(id: number): Promise<void> {
         const marca = await this.marcaRepository.findOne({ where: { id } });
         if (!marca) {
-            throw new MarcaNotFoundException();
+            throw new NotFoundException("Marca", id);
         }
         marca.eliminado = true;
         await this.marcaRepository.save(marca);

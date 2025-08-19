@@ -1,0 +1,1 @@
+export type QueryFilterTypeORMMapping<E, O> = {[k in keyof Partial<E>]: keyof O}

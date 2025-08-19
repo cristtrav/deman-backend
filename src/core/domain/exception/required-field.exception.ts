@@ -4,9 +4,9 @@ export class RequiredFieldException extends DomainException{
     readonly code: string;
     readonly statusCode: number;
 
-    constructor(fieldName: string){
-        super(`El campo '${fieldName}' es requerido`);
-        this.code = 'FIELD_REQUIRED';
+    constructor(resource: string, fieldName: string){
+        super(`'${fieldName}' es requerido en ${resource}`);
+        this.code = 'REQUIRED_FIELD';
         this.statusCode = 400;
     }
 

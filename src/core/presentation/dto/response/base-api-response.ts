@@ -1,4 +1,4 @@
-export abstract class ResponseBase {
+export abstract class BaseApiResponse {
     readonly success: boolean;
     readonly timestamp: string;
     readonly message: string;

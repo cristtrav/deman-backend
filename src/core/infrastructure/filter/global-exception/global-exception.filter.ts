@@ -2,7 +2,7 @@ import { ApplicationException } from '@core/application/exception/application.ex
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger, ValidationError } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { DomainException } from 'src/core/domain/exception/domain.exception';
-import { ErrorResponseDTO, ValidationErrorDetail } from 'src/core/presentation/dto/error-response.dto';
+import { ErrorResponseDTO, ValidationErrorDetail } from '@core/presentation/dto/response/error-response.dto';
 
 @Catch()
 export class GlobalExceptionFilter<T> implements ExceptionFilter {

@@ -1,4 +1,4 @@
-import { RequiredFieldException } from "../exception/required-field.exception"
+import { MarcaRequiredFieldException } from "../exception/marca-required-field.exception"
 
 export class Marca {
     private id: number
@@ -6,8 +6,8 @@ export class Marca {
     private eliminado: boolean = false
 
     constructor(id: number, descripcion: string, eliminado: boolean = false) {
-        if (id === null || id === undefined) throw new RequiredFieldException('ID');
-        if (descripcion === null || descripcion === undefined) throw new RequiredFieldException('Descripción');
+        if (id === null || id === undefined) throw new MarcaRequiredFieldException('ID');
+        if (descripcion === null || descripcion === undefined) throw new MarcaRequiredFieldException('Descripción');
         if (eliminado) { this.eliminado = eliminado }
         this.id = id
         this.descripcion = descripcion
