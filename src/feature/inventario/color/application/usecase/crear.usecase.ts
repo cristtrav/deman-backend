@@ -1,7 +1,7 @@
-import { ColorAlreadyExistsException } from "@feature/color/domain/exception/color-already-exists.exception"
-import { Color } from "@feature/color/domain/model/color.entity"
-import { NewColor } from "@feature/color/domain/model/new-color.entity"
-import { ColorRepository } from "@feature/color/domain/repository/color.repository"
+import { ColorAlreadyExistsException } from "@feature/inventario/color/domain/exception/color-already-exists.exception"
+import { Color } from "@feature/inventario/color/domain/model/color.entity"
+import { NewColor } from "@feature/inventario/color/domain/model/new-color.entity"
+import { ColorRepository } from "@feature/inventario/color/domain/repository/color.repository"
 
 export class CrearColorUseCase {
     constructor(

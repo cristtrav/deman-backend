@@ -1,8 +1,8 @@
-import { Color } from "@feature/color/domain/model/color.entity"
-import { ColorRepository } from "@feature/color/domain/repository/color.repository"
+import { Color } from "@feature/inventario/color/domain/model/color.entity"
+import { ColorRepository } from "@feature/inventario/color/domain/repository/color.repository"
 import { ColorNotFoundException } from "../exception/color-not-found.exception"
 import { NotFoundException } from "@core/application/exception/not-found.exception"
-import { ColorAlreadyExistsException } from "@feature/color/domain/exception/color-already-exists.exception"
+import { ColorAlreadyExistsException } from "@feature/inventario/color/domain/exception/color-already-exists.exception"
 
 export class ActualizarColorUseCase {
     constructor(

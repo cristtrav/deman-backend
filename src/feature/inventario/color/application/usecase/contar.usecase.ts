@@ -1,4 +1,4 @@
-import { ColorRepository } from "@feature/color/domain/repository/color.repository";
+import { ColorRepository } from "@feature/inventario/color/domain/repository/color.repository";
 
 export class ContarColoresUseCase {
     constructor(

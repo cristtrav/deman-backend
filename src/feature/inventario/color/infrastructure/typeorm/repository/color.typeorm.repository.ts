@@ -1,12 +1,12 @@
-import { ColorRepository } from "@feature/color/domain/repository/color.repository";
+import { ColorRepository } from "@feature/inventario/color/domain/repository/color.repository";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ColorTypeORMModel } from "../model/color.typeorm.model";
 import { ILike, Repository } from "typeorm";
-import { Color } from "@feature/color/domain/model/color.entity";
-import { NewColor } from "@feature/color/domain/model/new-color.entity";
+import { Color } from "@feature/inventario/color/domain/model/color.entity";
+import { NewColor } from "@feature/inventario/color/domain/model/new-color.entity";
 import { ColorMapper } from "../../mapper/color.mapper";
-import { ColorNotFoundException } from "@feature/color/application/exception/color-not-found.exception";
+import { ColorNotFoundException } from "@feature/inventario/color/application/exception/color-not-found.exception";
 
 @Injectable()
 export class ColorTypeORMRepository implements ColorRepository {

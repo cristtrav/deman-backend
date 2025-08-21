@@ -1,5 +1,5 @@
-import { Color } from "@feature/color/domain/model/color.entity"
-import { ColorRepository } from "@feature/color/domain/repository/color.repository"
+import { Color } from "@feature/inventario/color/domain/model/color.entity"
+import { ColorRepository } from "@feature/inventario/color/domain/repository/color.repository"
 import { ColorNotFoundException } from "../exception/color-not-found.exception"
 
 export class BuscarColorPorNombreUseCase {

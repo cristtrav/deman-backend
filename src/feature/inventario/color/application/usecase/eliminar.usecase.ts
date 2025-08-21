@@ -1,5 +1,5 @@
 import { NotFoundException } from "@core/application/exception/not-found.exception"
-import { ColorRepository } from "@feature/color/domain/repository/color.repository"
+import { ColorRepository } from "@feature/inventario/color/domain/repository/color.repository"
 
 export class EliminarColorUseCase {
     constructor(

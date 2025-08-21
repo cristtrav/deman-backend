@@ -1,4 +1,4 @@
-import { Color } from "@feature/color/domain/model/color.entity"
+import { Color } from "@feature/inventario/color/domain/model/color.entity"
 import { ColorDTO } from "../dto/color.dto"
 
 export class ColorDTOMapper {

@@ -1,6 +1,6 @@
-import { Color } from "@feature/color/domain/model/color.entity";
+import { Color } from "@feature/inventario/color/domain/model/color.entity";
 import { ColorTypeORMModel } from "../typeorm/model/color.typeorm.model";
-import { NewColor } from "@feature/color/domain/model/new-color.entity";
+import { NewColor } from "@feature/inventario/color/domain/model/new-color.entity";
 
 export class ColorMapper {
     static toDomain(colorTypeORM: ColorTypeORMModel): Color {
