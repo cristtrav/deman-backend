@@ -23,7 +23,8 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@core/*": ["./src/core/*"],
-      "@feature/*": ["./src/feature/*"]
+      "@feature/*": ["./src/feature/*"],
+      "@common/*": ["./src/common/*"]
     }
   }
 }
