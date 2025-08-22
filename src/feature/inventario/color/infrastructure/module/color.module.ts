@@ -4,6 +4,7 @@ import { ColorTypeORMModel } from "../typeorm/model/color.typeorm.model";
 import { ColorController } from "@feature/inventario/color/presentation/controller/color.controller";
 import RepositoryConfig from "./repository-config"
 import UseCaseConfig from "./usecase-config";
+import readRepositoryConfig from './read-repository.config';
 
 @Module({
     imports: [
@@ -13,7 +14,8 @@ import UseCaseConfig from "./usecase-config";
     ],
     providers: [
         ...RepositoryConfig,
-        ...UseCaseConfig
+        ...UseCaseConfig,
+        ...readRepositoryConfig
     ],
     controllers: [
         ColorController
