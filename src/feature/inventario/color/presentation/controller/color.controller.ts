@@ -1,52 +1,79 @@
-import { ActualizarColorUseCase } from "@feature/inventario/color/application/usecase/actualizar.usecase";
-import { BuscarColorPorNombreUseCase } from "@feature/inventario/color/application/usecase/buscar-por-nombre.usecase";
-import { CrearColorUseCase } from "@feature/inventario/color/application/usecase/crear.usecase";
-import { EliminarColorUseCase } from "@feature/inventario/color/application/usecase/eliminar.usecase";
-import { ObtenerColorPorIdUseCase } from "@feature/inventario/color/application/usecase/obtener-por-id.usecase";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
-import { NewColorDto } from "../dto/new-color.dto";
-import { ColorDTOMapper } from "../mapper/color-dto.mapper";
-import { ColorDTO } from "../dto/color.dto";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
+import { CrearColorUseCase } from "../../application/usecase/crear.usecase";
+import { EditarColorUseCase } from "../../application/usecase/editar.usecase";
+import { EliminarColorUseCase } from "../../application/usecase/eliminar.usecase";
+import { ConsultarColoresUseCase } from "../../application/usecase/consultar.usecase";
+import { ConsultarColorPorIdUseCase } from "../../application/usecase/consultar-por-id.usecase";
 import { ApiResponseDTO } from "@core/presentation/dto/response/api-response.dto";
+import { ColorDTOMapper } from "../mapper/color-dto.mapper";
+import { NewColorDto } from "../dto/new-color.dto";
+import { ColorDTO } from "../dto/color.dto";
+import { GetColorQueryParamDTO } from "../dto/http/get-color-query-param.dto";
+import { GetQueryParamsMapper } from "@core/presentation/mapper/get-query-params.mapper";
+import { PaginationApiMapper } from "@core/presentation/mapper/pagination-api.mapper";
 
 @Controller('colores')
 export class ColorController {
     constructor(
         private readonly crearColorUseCase: CrearColorUseCase,
-        private readonly actualizarColorUseCase: ActualizarColorUseCase,
+        private readonly editarColorUseCase: EditarColorUseCase,
         private readonly eliminarColorUseCase: EliminarColorUseCase,
-        private readonly obtenerColorPorIdUseCase: ObtenerColorPorIdUseCase,
-        private readonly buscarColorPorNombreUseCase: BuscarColorPorNombreUseCase,
+        private readonly consultarColorUseCase: ConsultarColoresUseCase,
+        private readonly consultarColorPorIdUseCase: ConsultarColorPorIdUseCase
     ) { }
 
-    // @Post()
-    // async crearColor(@Body() colorDTO: NewColorDto): Promise<ApiResponseDTO<ColorDTO>> {
-    //     const newColor = ColorDTOMapper.toDTO(await this.crearColorUseCase.execute(colorDTO.descripcion))
-    //     return ApiResponseDTO.success(newColor);
-    // }
+    @Post()
+    async crearColor(
+        @Body() newColor: NewColorDto
+    ): Promise<ApiResponseDTO<ColorDTO>> {
+        const result = (await this.crearColorUseCase.execute({
+            data: {
+                id: newColor.id,
+                descripcion: newColor.descripcion
+            }
+        }));
+        return ApiResponseDTO.success({ data: ColorDTOMapper.toDTO(result.data) });
+    }
 
-    // @Get(':id')
-    // async obtenerColorPorId(@Param('id', ParseIntPipe) id: number): Promise<ApiResponseDTO<ColorDTO>> {
-    //     const color = ColorDTOMapper.toDTO(await this.obtenerColorPorIdUseCase.execute(id));
-    //     return ApiResponseDTO.success(color);
-    // }
-    // @Get('nombre/:descripcion')
-    // async buscarColorPorNombre(@Param('descripcion') descripcion: string): Promise<ApiResponseDTO<ColorDTO>> {
-    //     const color = ColorDTOMapper.toDTO( await this.buscarColorPorNombreUseCase.execute(descripcion));
-    //     return ApiResponseDTO.success(color);
-    // }
+    @Get()
+    async consultarColores(
+        @Query() queryParams: GetColorQueryParamDTO
+    ): Promise<ApiResponseDTO<ColorDTO[]>> {
+        const result = await this.consultarColorUseCase.execute(GetQueryParamsMapper.toQueryContract(queryParams));
+        return ApiResponseDTO.success({
+            data: result.data.map(m => ColorDTOMapper.toDTO(m)),
+            pagination: result.page ? PaginationApiMapper.toApiResponsePaginationDTO(result.page) : undefined
+        })
+    }
 
-    // @Put(':id')
-    // async actualizarColor(@Param('id', ParseIntPipe) id: number, @Body() color: ColorDTO): Promise<ApiResponseDTO<ColorDTO>> {
-    //     const currentColor = ColorDTOMapper.toDomain(color);
-    //     const colorToUpdate = await this.actualizarColorUseCase.execute(id, currentColor.getDescripcion());
-    //     const updatedColor = ColorDTOMapper.toDTO(colorToUpdate);
-    //     return ApiResponseDTO.success(updatedColor);
-    // }
+    @Get(':id')
+    async obtenerColorPorId(
+        @Param('id', ParseIntPipe) id: number
+    ): Promise<ApiResponseDTO<ColorDTO>> {
+        const color = await this.consultarColorPorIdUseCase.execute(id);
+        const colorDto = ColorDTOMapper.toDTO(color)
+        return ApiResponseDTO.success({ data: colorDto });
+    }
 
-    // @Delete(':id')
-    // deleteColor(@Param('id', ParseIntPipe) id: number): ApiResponseDTO<void> {
-    //     this.eliminarColorUseCase.execute(id);
-    //     return ApiResponseDTO.success(undefined, "Color eliminado correctamente");
-    // }
+    @Put(':id')
+    async editarColor(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() colorDto: ColorDTO
+    ): Promise<ApiResponseDTO<ColorDTO>> {
+        const result = await this.editarColorUseCase.execute({
+            data: {
+                id: id,
+                descripcion: colorDto.descripcion
+            }
+        });
+        return ApiResponseDTO.success({ data: ColorDTOMapper.toDTO(result.data) });
+    }
+
+    @Delete(':id')
+    async deleteColor(@Param('id', ParseIntPipe) id: number): Promise<ApiResponseDTO<void>> {
+        await this.eliminarColorUseCase.execute({
+            data: { id }
+        });
+        return ApiResponseDTO.success()
+    }
 }
