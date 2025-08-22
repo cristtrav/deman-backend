@@ -1,4 +1,3 @@
-import { ApiResponseDTO } from "@core/presentation/dto/api-response.dto";
 import { ActualizarColorUseCase } from "@feature/color/application/usecase/actualizar.usecase";
 import { BuscarColorPorNombreUseCase } from "@feature/color/application/usecase/buscar-por-nombre.usecase";
 import { CrearColorUseCase } from "@feature/color/application/usecase/crear.usecase";
@@ -8,6 +7,7 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@
 import { NewColorDto } from "../dto/new-color.dto";
 import { ColorDTOMapper } from "../mapper/color-dto.mapper";
 import { ColorDTO } from "../dto/color.dto";
+import { ApiResponseDTO } from "@core/presentation/dto/response/api-response.dto";
 
 @Controller('colores')
 export class ColorController {
@@ -22,18 +22,18 @@ export class ColorController {
     @Post()
     async crearColor(@Body() colorDTO: NewColorDto): Promise<ApiResponseDTO<ColorDTO>> {
         const newColor = ColorDTOMapper.toDTO(await this.crearColorUseCase.execute(colorDTO.descripcion))
-        return ApiResponseDTO.success(newColor);
+        return ApiResponseDTO.success({data: newColor});
     }
 
     @Get(':id')
     async obtenerColorPorId(@Param('id', ParseIntPipe) id: number): Promise<ApiResponseDTO<ColorDTO>> {
         const color = ColorDTOMapper.toDTO(await this.obtenerColorPorIdUseCase.execute(id));
-        return ApiResponseDTO.success(color);
+        return ApiResponseDTO.success({data: color});
     }
     @Get('nombre/:descripcion')
     async buscarColorPorNombre(@Param('descripcion') descripcion: string): Promise<ApiResponseDTO<ColorDTO>> {
         const color = ColorDTOMapper.toDTO( await this.buscarColorPorNombreUseCase.execute(descripcion));
-        return ApiResponseDTO.success(color);
+        return ApiResponseDTO.success({data: color});
     }
 
     @Put(':id')
@@ -41,12 +41,12 @@ export class ColorController {
         const currentColor = ColorDTOMapper.toDomain(color);
         const colorToUpdate = await this.actualizarColorUseCase.execute(id, currentColor.getDescripcion());
         const updatedColor = ColorDTOMapper.toDTO(colorToUpdate);
-        return ApiResponseDTO.success(updatedColor);
+        return ApiResponseDTO.success({data: updatedColor});
     }
 
     @Delete(':id')
     deleteColor(@Param('id', ParseIntPipe) id: number): ApiResponseDTO<void> {
         this.eliminarColorUseCase.execute(id);
-        return ApiResponseDTO.success(undefined, "Color eliminado correctamente");
+        return ApiResponseDTO.success();
     }
 }
