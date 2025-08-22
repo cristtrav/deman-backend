@@ -1,20 +1,17 @@
-import { ColorAlreadyExistsException } from "@feature/inventario/color/domain/exception/color-already-exists.exception"
+import { BaseUseCase } from "@core/application/usecase/base.usecase"
 import { Color } from "@feature/inventario/color/domain/model/color.entity"
 import { NewColor } from "@feature/inventario/color/domain/model/new-color.entity"
 import { ColorRepository } from "@feature/inventario/color/domain/repository/color.repository"
+import { CrearColorCommand } from "../contract/command/crear-color.command"
+import { ResultContract } from "@core/application/contract/result/result.contract"
 
-export class CrearColorUseCase {
+export class CrearColorUseCase extends BaseUseCase<CrearColorCommand, ResultContract<Color>> {
     constructor(
         private readonly colorRepository: ColorRepository
-    ) { }
+    ) { super() }
 
-    async execute(descripcion: string): Promise<Color> {
-        const normalizedDescription = descripcion.trim().toLowerCase()
-        const colorFound = await this.colorRepository.findByName(normalizedDescription)
-
-        if (colorFound) throw new ColorAlreadyExistsException(descripcion)
-
-        const newColor = new NewColor(descripcion.trim())
-        return this.colorRepository.create(newColor)
+    async execute(command: CrearColorCommand): Promise<ResultContract<Color>> {
+        const nuevoColor = new NewColor(command.data.descripcion)
+        return { data: await this.colorRepository.create(nuevoColor) }
     }
 }
