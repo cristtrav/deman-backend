@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiResponseDTO } from './core/presentation/dto/api-response.dto';
+import { ApiResponseDTO } from './core/presentation/dto/response/api-response.dto';
 
 @Controller()
 export class AppController {
@@ -8,7 +8,7 @@ export class AppController {
 
   @Get()
   getHello(): ApiResponseDTO<string>{
-    return ApiResponseDTO.success(this.appService.getHello());
+    return ApiResponseDTO.success({data: this.appService.getHello()});
   }
 }
 
