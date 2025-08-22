@@ -1,19 +1,16 @@
-import { RequiredFieldException } from "../exception/required-field.exception";
+import { ColorRequiredFieldException } from "../exception/color-required-field.exception";
 
 export class Color {
-    private id: number
-    private descripcion: string
-    private eliminado: boolean = false
+    private _id: number
+    private _descripcion: string
 
-    constructor(id: number, descripcion: string, eliminado: boolean = false) {
-        if (id === null || id === undefined) throw new RequiredFieldException('ID');
-        if (descripcion === null || descripcion === undefined) throw new RequiredFieldException('Descripción');
-        if (eliminado) { this.eliminado = eliminado }
-        this.id = id
-        this.descripcion = descripcion
+    constructor(id: number, descripcion: string) {
+        if (id == null) throw new ColorRequiredFieldException('ID');
+        if (descripcion == null) throw new ColorRequiredFieldException('Descripción');
+        this._id = id
+        this._descripcion = descripcion
     }
 
-    getId(): number { return this.id }
-    getDescripcion(): string { return this.descripcion }
-    isEliminado(): boolean { return this.eliminado }
+    get id(): number { return this._id }
+    get descripcion(): string { return this._descripcion }
 }
