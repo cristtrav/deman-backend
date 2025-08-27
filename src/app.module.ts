@@ -7,13 +7,15 @@ import { GlobalExceptionFilter } from '@core/infrastructure/filter/global-except
 import { CategoriaModule } from './feature/inventario/categoria/infrastructure/module/categoria.module';
 import { MarcaModule } from '@feature/inventario/marca/infrastructure/module/marca.module';
 import { ColorModule } from '@feature/inventario/color/infrastructure/module/color.module';
+import { TipoModule } from '@feature/inventario/tipo/infrastructure/module/tipo.module';
 
 @Module({
   imports: [
     DatabaseModule,
     MarcaModule,
     CategoriaModule, 
-    ColorModule
+    ColorModule,
+    TipoModule
   ],
   controllers: [AppController],
   providers: [
