@@ -18,6 +18,7 @@ export class MarcaTypeORMReadRepository implements MarcaReadRepository{
 
     async consultar(query: QueryContract): Promise<ConsultarMarcasResult> {
         const options = QueryFindOptionsMapper.toFindOptions<Marca, MarcaTypeORMModel>(query, MARCA_TYPEORM_MAPPING);
+        options.where = {...options.where, eliminado: false}
         const data = (await this.marcaTypeOrmRepository.find(options)).map(m => MarcaTypeORMMapper.toDomain(m));
         const result: ConsultarMarcasResult = { data }
         if(query.pagination) result.page = {
