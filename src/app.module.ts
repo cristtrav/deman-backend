@@ -6,12 +6,14 @@ import { DatabaseModule } from '@core/infrastructure/database/database.module';
 import { GlobalExceptionFilter } from '@core/infrastructure/filter/global-exception/global-exception.filter';
 import { CategoriaModule } from './feature/inventario/categoria/infrastructure/module/categoria.module';
 import { MarcaModule } from '@feature/inventario/marca/infrastructure/module/marca.module';
+import { ProductoModule } from './feature/inventario/producto/infrastructure/module/producto.module';
 
 @Module({
   imports: [
     DatabaseModule,
     MarcaModule,
-    CategoriaModule
+    CategoriaModule,
+    ProductoModule
   ],
   controllers: [AppController],
   providers: [
