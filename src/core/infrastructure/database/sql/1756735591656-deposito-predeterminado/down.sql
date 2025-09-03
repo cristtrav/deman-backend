@@ -1,0 +1,1 @@
+DELETE FROM inventario.deposito WHERE id = 1;
