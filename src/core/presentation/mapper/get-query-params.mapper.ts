@@ -32,13 +32,14 @@ export class GetQueryParamsMapper{
 
                 const val = filters[field];
                 queryFilters.push({
-                    field,
+                    field: this.getFieldInDots(field),
                     value: this.hasOperator(val) ? this.getValue(val) : val,
                     operator: this.hasOperator(val) ? this.getOperator(val) : 'eq'
                 })
             }
             query.filters = queryFilters;
-        } 
+        }
+        console.log(query)
         return query;
     }
 
@@ -55,4 +56,10 @@ export class GetQueryParamsMapper{
     private static getValue(value: string): string {
         return value.split(':').slice(1).join("");
     }
+
+    private static getFieldInDots(field: string): string{
+        return field.replace(/\[([^\]]+)\]/g, '.$1');
+    }
+        
+    
 }

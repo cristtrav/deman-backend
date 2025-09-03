@@ -1,8 +1,8 @@
-import { EntityTypeORMMapping } from "@core/infrastructure/typeorm/mapping/entity-typeorm.mapping.contract";
+import { EntityTypeORMMap } from "@core/infrastructure/typeorm/mapping/entity-typeorm.map";
 import { MarcaTypeORMModel } from "../model/marca.typeorm.model";
 import { Marca } from "@feature/inventario/marca/domain/model/marca.entity";
 
-export const MARCA_TYPEORM_MAPPING: EntityTypeORMMapping<Marca, MarcaTypeORMModel> = {
-    id: 'id',
-    descripcion: 'descripcion'
-}
+const MARCA_FIELD_MAP = new EntityTypeORMMap<Marca, MarcaTypeORMModel>();
+MARCA_FIELD_MAP.set("id", "id");
+MARCA_FIELD_MAP.set("descripcion", "descripcion");
+export default MARCA_FIELD_MAP;
