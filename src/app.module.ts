@@ -14,7 +14,10 @@ import { ProductoModule } from './feature/inventario/producto/infrastructure/mod
   imports: [
     DatabaseModule,
     MarcaModule,
-    CategoriaModule
+    CategoriaModule,
+    ColorModule,
+    TipoModule,
+    ProductoModule
   ],
   controllers: [AppController],
   providers: [

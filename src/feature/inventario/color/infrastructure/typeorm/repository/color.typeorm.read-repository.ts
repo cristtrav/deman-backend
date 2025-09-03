@@ -5,9 +5,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ColorTypeORMModel } from "../model/color.typeorm.model";
 import { Repository } from "typeorm";
 import { QueryFindOptionsMapper } from "@core/infrastructure/typeorm/mapper/query-find-options.mapper";
-import { COLOR_TYPEORM_MAPPING } from "../mapping/color.typeorm.mapping";
 import { ColorTypeORMMapper } from "../mapper/color.typeorm.mapper";
 import { Color } from "@feature/inventario/color/domain/model/color.entity";
+import COLOR_FIELD_MAP from "../mapping/color.typeorm.mapping";
 
 export class ColorTypeORMReadRepository implements ColorReadRepository{
     constructor(
@@ -15,7 +15,7 @@ export class ColorTypeORMReadRepository implements ColorReadRepository{
         private colorTypeORMRepo: Repository<ColorTypeORMModel>
     ){}
     async consultar(query: QueryContract): Promise<ConsultarColoresResult> {
-       const options = QueryFindOptionsMapper.toFindOptions<Color,ColorTypeORMModel>(query, COLOR_TYPEORM_MAPPING);
+       const options = QueryFindOptionsMapper.toFindOptions<Color,ColorTypeORMModel>(query, COLOR_FIELD_MAP);
        const  data = (await this.colorTypeORMRepo.find(options)).map(c => ColorTypeORMMapper.toDomain(c))
        const result: ConsultarColoresResult = {data }
        if(query.pagination) result.page = {

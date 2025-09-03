@@ -6,8 +6,8 @@ import { QueryContract } from "@core/application/contract/query/query.contract";
 import { ConsultarTiposResult } from "@feature/inventario/tipo/application/contract/result/consultar-tipos.result";
 import { QueryFindOptionsMapper } from "@core/infrastructure/typeorm/mapper/query-find-options.mapper";
 import { Tipo } from "@feature/inventario/tipo/domain/model/tipo.entity";
-import { TIPO_TYPEORM_MAPPING } from "../mapping/tipo.typeorm.mapping";
 import { TipoTypeORMMapper } from "../mapper/tipo.typeorm.mapper";
+import TIPO_FIELD_MAP from "../mapping/tipo.typeorm.mapping";
 
 export class TipoTypeORMReadRepository implements TipoReadRepository {
     constructor(
@@ -15,7 +15,7 @@ export class TipoTypeORMReadRepository implements TipoReadRepository {
         private tipoTypeORMRepo: Repository<TipoTypeORMModel>
     ) { }
     async consultar(query: QueryContract): Promise<ConsultarTiposResult> {
-        const options = QueryFindOptionsMapper.toFindOptions<Tipo, TipoTypeORMModel>(query, TIPO_TYPEORM_MAPPING);
+        const options = QueryFindOptionsMapper.toFindOptions<Tipo, TipoTypeORMModel>(query, TIPO_FIELD_MAP);
         const data = (await this.tipoTypeORMRepo.find(options)).map(t => TipoTypeORMMapper.toDomain(t))
         const result: ConsultarTiposResult = { data }
         if (query.pagination) result.page = {
