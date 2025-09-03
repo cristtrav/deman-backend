@@ -1,0 +1,1 @@
+DELETE FROM inventario.categoria WHERE id = 1;

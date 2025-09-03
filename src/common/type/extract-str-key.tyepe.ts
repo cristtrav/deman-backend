@@ -1,0 +1,1 @@
+export type ExtractStrKey<T> = Extract<keyof T, string>;

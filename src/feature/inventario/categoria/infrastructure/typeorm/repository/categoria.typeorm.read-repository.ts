@@ -1,12 +1,12 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { CategoriaTypeORMModel } from "../model/categoria.typeorm.model";
-import { FindManyOptions, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { CategoriaReadRepository } from "@feature/inventario/categoria/application/read-repository/categoria.read-repository";
 import { CategoriaTypeORMMapper } from "../mapper/categoria.typeorm.mapper";
 import { ConsultarCategoriasResult } from "@feature/inventario/categoria/application/contract/result/consultar-categorias.result";
 import { QueryContract } from "@core/application/contract/query/query.contract";
 import { Categoria } from "@feature/inventario/categoria/domain/model/categoria.entity";
-import { CATEGORIA_TYPEORM_MAPPING } from "../mapping/categoria.typeorm.mapping";
+import CATEGORIA_FIELD_MAP from "../mapping/categoria.typeorm.mapping";
 import { QueryFindOptionsMapper } from "@core/infrastructure/typeorm/mapper/query-find-options.mapper";
 
 export class CategoriaTypeORMReadRepository implements CategoriaReadRepository{
@@ -17,7 +17,7 @@ export class CategoriaTypeORMReadRepository implements CategoriaReadRepository{
     ){}
 
     async findMany(query: QueryContract): Promise<ConsultarCategoriasResult> {
-        const options = QueryFindOptionsMapper.toFindOptions<Categoria, CategoriaTypeORMModel>(query, CATEGORIA_TYPEORM_MAPPING);
+        const options = QueryFindOptionsMapper.toFindOptions<Categoria, CategoriaTypeORMModel>(query, CATEGORIA_FIELD_MAP);
         const data = (await this.categoriaTypeOrmRepo.find(options)).map(c => CategoriaTypeORMMapper.toDomain(c));
         const result: ConsultarCategoriasResult = { data };
         if(query.pagination) result.page = {
