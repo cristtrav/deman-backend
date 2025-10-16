@@ -9,6 +9,7 @@ import { MarcaModule } from '@feature/inventario/marca/infrastructure/module/mar
 import { ColorModule } from '@feature/inventario/color/infrastructure/module/color.module';
 import { TipoModule } from '@feature/inventario/tipo/infrastructure/module/tipo.module';
 import { ProductoModule } from './feature/inventario/producto/infrastructure/module/producto.module';
+import { ClienteModule } from '@feature/facturacion/cliente/infrastructure/module/cliente.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { ProductoModule } from './feature/inventario/producto/infrastructure/mod
     CategoriaModule,
     ColorModule,
     TipoModule,
-    ProductoModule
+    ProductoModule,
+    ClienteModule
   ],
   controllers: [AppController],
   providers: [
