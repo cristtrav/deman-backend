@@ -10,6 +10,7 @@ import { ColorModule } from '@feature/inventario/color/infrastructure/module/col
 import { TipoModule } from '@feature/inventario/tipo/infrastructure/module/tipo.module';
 import { ProductoModule } from './feature/inventario/producto/infrastructure/module/producto.module';
 import { UnidadMedidaModule } from './feature/unidad-medida/infrastructure/module/unidad-medida.module';
+import { ClienteModule } from '@feature/facturacion/cliente/infrastructure/module/cliente.module';
 import { InventarioModule } from './feature/inventario/inventario/infrastructure/module/inventario.module';
 import { ProductoVarianteModule } from './feature/inventario/producto-variante/infrastructure/module/producto-variante.module';
 import { ProductoVarianteController } from './feature/inventario/producto-variante/presentation/controller/producto-variante.controller';
@@ -22,6 +23,7 @@ import { ProductoVarianteController } from './feature/inventario/producto-varian
     ColorModule,
     TipoModule,
     ProductoModule,
+    ClienteModule,
     UnidadMedidaModule,
     InventarioModule,
     ProductoVarianteModule,    
