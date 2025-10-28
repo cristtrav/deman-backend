@@ -10,6 +10,7 @@ import { ColorModule } from '@feature/inventario/color/infrastructure/module/col
 import { TipoModule } from '@feature/inventario/tipo/infrastructure/module/tipo.module';
 import { ProductoModule } from './feature/inventario/producto/infrastructure/module/producto.module';
 import { UnidadMedidaModule } from './feature/unidad-medida/infrastructure/module/unidad-medida.module';
+import { ClienteModule } from '@feature/facturacion/cliente/infrastructure/module/cliente.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UnidadMedidaModule } from './feature/unidad-medida/infrastructure/modul
     ColorModule,
     TipoModule,
     ProductoModule,
+    ClienteModule,
     UnidadMedidaModule
   ],
   controllers: [AppController],
