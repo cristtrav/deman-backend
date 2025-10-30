@@ -10,6 +10,7 @@ import { ColorModule } from '@feature/inventario/color/infrastructure/module/col
 import { TipoModule } from '@feature/inventario/tipo/infrastructure/module/tipo.module';
 import { ProductoModule } from './feature/inventario/producto/infrastructure/module/producto.module';
 import { ClienteModule } from '@feature/facturacion/cliente/infrastructure/module/cliente.module';
+import { UsuarioModule } from '@feature/auth/usuario/infrastructure/module/usuario.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { ClienteModule } from '@feature/facturacion/cliente/infrastructure/modul
     ColorModule,
     TipoModule,
     ProductoModule,
-    ClienteModule
+    ClienteModule, 
+    UsuarioModule
   ],
   controllers: [AppController],
   providers: [
