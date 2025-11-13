@@ -11,14 +11,37 @@ export class ProductoVarianteDTOMapper {
             producto: {
                 id: productoVariante.producto.id,
                 descripcion: productoVariante.producto.descripcion,
-                tipo: productoVariante.producto.tipo.descripcion,
-                categoria: productoVariante.producto.categoria.descripcion
+                tipo: {
+                    id: productoVariante.producto.tipo.id,
+                    descripcion: productoVariante.producto.tipo.descripcion
+                },
+                categoria: {
+                    id: productoVariante.producto.categoria.id,
+                    descripcion: productoVariante.producto.categoria.descripcion
+                },
+                unidadMedida: {
+                    id: productoVariante.producto.unidadMedida.id,
+                    descripcion: {
+                        singular: productoVariante.producto.unidadMedida.descripcion.singular,
+                        plural: productoVariante.producto.unidadMedida.descripcion.plural
+                    },
+                    abreviatura: {
+                        singular: productoVariante.producto.unidadMedida.abreviatura.singular,
+                        plural: productoVariante.producto.unidadMedida.abreviatura.plural
+                    }
+                }
             },
             variante: {
                 id: productoVariante.variante.id,
                 descripcion: productoVariante.variante.descripcion,
-                tamanio: productoVariante.variante.tamanio.descripcion,
-                color: productoVariante.variante.color.descripcion
+                tamanio: {
+                    id: productoVariante.variante.tamanio.id,
+                    descripcion: productoVariante.variante.tamanio.descripcion
+                },
+                color: {
+                    id: productoVariante.variante.color.id,
+                    descripcion: productoVariante.variante.color.descripcion
+                }
             }
         }
     }
