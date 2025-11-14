@@ -4,6 +4,7 @@ import { Usuario } from "../../domain/model/usuario.entity";
 import { BaseUseCase } from "@core/application/usecase/base.usecase";
 import { UsuarioRepository } from "../../domain/repository/usuario.repository";
 import { NewUsuario } from "../../domain/model/new-usuario.entity";
+import * as bcrypt from 'bcrypt';
 
 interface UsuarioData {
     id?: number;
@@ -20,11 +21,12 @@ export class CrearUsuarioUseCase extends BaseUseCase<CrearUsuarioCommand, CrearU
     constructor(readonly usuarioRepository: UsuarioRepository) { super() }
 
     async execute(command: CrearUsuarioCommand): Promise<CrearUsuarioResult> {
+        const hashedPassword = await bcrypt.hash(command.data.password, 10)
         const newUsuario = new NewUsuario(
             command.data.nombres,
             command.data.apellidos,
             command.data.ci,
-            command.data.password,
+            hashedPassword,
             command.data.activo,
             command.data.id
         )
