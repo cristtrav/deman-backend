@@ -10,6 +10,7 @@ import { GetQueryParamsDTO } from "@core/presentation/dto/request/get-query-para
 import { GetQueryParamsMapper } from "@core/presentation/mapper/get-query-params.mapper";
 import { PaginationApiMapper } from "@core/presentation/mapper/pagination-api.mapper";
 import { NewUsuarioDTO } from "../dto/new-usuario.dto";
+import { EditarPasswordUseCase } from "../../application/usecase/editar-password.usecase";
 
 @Controller('usuarios')
 export class UsuarioController {
@@ -18,14 +19,15 @@ export class UsuarioController {
         private eliminarUsuarioUseCase: EliminarUsuarioUseCase,
         private editarUsuarioUseCase: EditarUsuarioUseCase,
         private crearUsuarioUseCase: CrearUsuarioUseCase,
-        private consultarUsuariosUseCase: ConsultarUsuariosUseCase
-    ){}
+        private consultarUsuariosUseCase: ConsultarUsuariosUseCase,
+        private editarPasswordUseCase: EditarPasswordUseCase
+    ) { }
 
     @Delete(":id")
     async delete(
         @Param('id', ParseIntPipe) id: number
-    ): Promise<ApiResponseDTO<void>>{
-        await this.eliminarUsuarioUseCase.execute({ data: { id }});
+    ): Promise<ApiResponseDTO<void>> {
+        await this.eliminarUsuarioUseCase.execute({ data: { id } });
         return ApiResponseDTO.success();
     }
 
@@ -33,7 +35,7 @@ export class UsuarioController {
     async put(
         @Param("previousId", ParseIntPipe) previousId: number,
         @Body() usuarioDto: UsuarioDTO
-    ): Promise<ApiResponseDTO<UsuarioDTO>>{
+    ): Promise<ApiResponseDTO<UsuarioDTO>> {
         const result = await this.editarUsuarioUseCase.execute({
             previousId: previousId,
             data: {
@@ -49,15 +51,26 @@ export class UsuarioController {
             data: UsuarioDTOMapper.toDTO(result.data)
         })
     }
+    @Put(':previousId/password')
+    async putPassword(
+        @Param('previousId', ParseIntPipe) previousId: number,
+        @Body('password') password: string
+    ): Promise<ApiResponseDTO<void>> {
+        await this.editarPasswordUseCase.execute({
+            previousId,
+            data: password 
+        });
+        return ApiResponseDTO.success();
+    }
 
     @Get()
     async get(
         @Query() queryParams: GetQueryParamsDTO
-    ): Promise<ApiResponseDTO<UsuarioDTO[]>>{
+    ): Promise<ApiResponseDTO<UsuarioDTO[]>> {
         const result = await this.consultarUsuariosUseCase.execute(
             GetQueryParamsMapper.toQueryContract(queryParams)
         );
-        
+
         return ApiResponseDTO.success({
             data: result.data.map(u => UsuarioDTOMapper.toDTO(u)),
             pagination: result.page ? PaginationApiMapper.toApiResponsePaginationDTO(result.page) : undefined
@@ -66,16 +79,18 @@ export class UsuarioController {
 
     @Post()
     async post(
-        @Body()  newUsuarioDTO: NewUsuarioDTO
-    ): Promise<ApiResponseDTO<UsuarioDTO>>{
-        const result = await this.crearUsuarioUseCase.execute({ data: {
-            id: newUsuarioDTO.id,
-            nombres: newUsuarioDTO.nombres,
-            apellidos: newUsuarioDTO.apellidos,
-            ci: newUsuarioDTO.ci,
-            password: newUsuarioDTO.password,
-            activo: newUsuarioDTO.activo,
-        }});
+        @Body() newUsuarioDTO: NewUsuarioDTO
+    ): Promise<ApiResponseDTO<UsuarioDTO>> {
+        const result = await this.crearUsuarioUseCase.execute({
+            data: {
+                id: newUsuarioDTO.id,
+                nombres: newUsuarioDTO.nombres,
+                apellidos: newUsuarioDTO.apellidos,
+                ci: newUsuarioDTO.ci,
+                password: newUsuarioDTO.password,
+                activo: newUsuarioDTO.activo,
+            }
+        });
         return ApiResponseDTO.success({
             data: UsuarioDTOMapper.toDTO(result.data)
         })

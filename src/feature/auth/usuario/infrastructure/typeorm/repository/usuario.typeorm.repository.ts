@@ -13,6 +13,13 @@ export class UsuarioTypeORMRepository implements UsuarioRepository {
         private usuarioTypeOrmRepository: Repository<UsuarioTypeORMModel>
     ) { }
 
+    async editPassword(previousId: number, password: string): Promise<void> {
+        const usuario = await this.usuarioTypeOrmRepository.findOneByOrFail({ id: previousId });
+        usuario.password = password;
+        await this.usuarioTypeOrmRepository.save(usuario);
+        return
+    }
+
     async create(newUsuario: NewUsuario): Promise<Usuario> {
         const usuarioTypeOrm = NewUsuarioTypeORMMapper.toORM(newUsuario);
         const savedUsuarioTypeOrm = await this.usuarioTypeOrmRepository.save(usuarioTypeOrm);
