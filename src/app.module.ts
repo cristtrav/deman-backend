@@ -11,6 +11,7 @@ import { TipoModule } from '@feature/inventario/tipo/infrastructure/module/tipo.
 import { ProductoModule } from './feature/inventario/producto/infrastructure/module/producto.module';
 import { UnidadMedidaModule } from './feature/unidad-medida/infrastructure/module/unidad-medida.module';
 import { ClienteModule } from '@feature/facturacion/cliente/infrastructure/module/cliente.module';
+import { UsuarioModule } from '@feature/auth/usuario/infrastructure/module/usuario.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { ClienteModule } from '@feature/facturacion/cliente/infrastructure/modul
     ColorModule,
     TipoModule,
     ProductoModule,
-    ClienteModule,
+    ClienteModule, 
+    UsuarioModule,
     UnidadMedidaModule
   ],
   controllers: [AppController],
