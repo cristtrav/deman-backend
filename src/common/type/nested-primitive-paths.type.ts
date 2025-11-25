@@ -1,7 +1,7 @@
 import { ExtractStrKey } from "./extract-str-key.tyepe";
 import { IsPlainObject } from "./is-plain-object.type";
 
-// -------------- tilidades --------------
+// -------------- Utilidades --------------
 type Primitive = string | number | boolean | bigint | symbol | null | undefined;
 
 // contador de profundidad (hasta 10 niveles aquí, puedes extenderlo)

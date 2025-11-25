@@ -1,0 +1,1 @@
+ALTER TABLE IF EXISTS inventario.inventario_detalle RENAME cantidad_previa TO diferencia;

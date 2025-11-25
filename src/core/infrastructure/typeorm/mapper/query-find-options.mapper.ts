@@ -37,7 +37,9 @@ export class QueryFindOptionsMapper{
         if(query.search){
             const searchFields = {}
             for(let field of query.search.fields){
-                searchFields[`${field}`] = ILike(`%${query.search.q}%`)
+                if(!fieldMap.hasKey(field)) continue;
+                const fieldName = this.getWhereFieldName(field);
+                searchFields[`${fieldName}`] = this.getWhereValue('like', field, query.search.q)
             }
             options.where = { ...options.where, ...searchFields }
         }
@@ -52,8 +54,7 @@ export class QueryFindOptionsMapper{
      */
     private static getWhereFieldName(path: string): string{
         if(!path.includes(".")) return path;
-        const elements = path.split('.');
-        return elements[0];
+        return path.split('.')[0];
     }
 
     /**
@@ -91,11 +92,11 @@ export class QueryFindOptionsMapper{
      * @returns el objeto anidado
      */
     private static stringToNestedObject(path: string, value, ignoreFirst = false) {
-    let parts = path.split('.');
-    if (ignoreFirst) parts.shift();
+        let parts = path.split('.');
+        if (ignoreFirst) parts.shift();
 
-    return parts.reduceRight((acc, key) => {
-        return { [key]: acc };
-    }, value);
+        return parts.reduceRight((acc, key) => {
+            return { [key]: acc };
+        }, value);
     }
 }

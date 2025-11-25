@@ -12,6 +12,9 @@ import { ProductoModule } from './feature/inventario/producto/infrastructure/mod
 import { UnidadMedidaModule } from './feature/unidad-medida/infrastructure/module/unidad-medida.module';
 import { ClienteModule } from '@feature/facturacion/cliente/infrastructure/module/cliente.module';
 import { UsuarioModule } from '@feature/auth/usuario/infrastructure/module/usuario.module';
+import { InventarioModule } from './feature/inventario/inventario/infrastructure/module/inventario.module';
+import { ProductoVarianteModule } from './feature/inventario/producto-variante/infrastructure/module/producto-variante.module';
+import { ProductoVarianteController } from './feature/inventario/producto-variante/presentation/controller/producto-variante.controller';
 
 @Module({
   imports: [
@@ -23,7 +26,9 @@ import { UsuarioModule } from '@feature/auth/usuario/infrastructure/module/usuar
     ProductoModule,
     ClienteModule, 
     UsuarioModule,
-    UnidadMedidaModule
+    UnidadMedidaModule,
+    InventarioModule,
+    ProductoVarianteModule,    
   ],
   controllers: [AppController],
   providers: [

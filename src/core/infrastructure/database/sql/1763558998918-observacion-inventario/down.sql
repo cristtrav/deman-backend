@@ -1,0 +1,1 @@
+ALTER TABLE IF EXISTS inventario.inventario DROP COLUMN IF EXISTS observacion;

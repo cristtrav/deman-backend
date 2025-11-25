@@ -1,0 +1,20 @@
+export class DetalleInventarioDTO {
+    id: number;
+    producto: {
+        id: number,
+        descripcion: string,
+        unidadMedida: {
+            id: string,
+            descripcion: { singular: string, plural: string },
+            abreviatura: { singular: string, plural: string }
+        };
+    };
+    variante: {
+        id: number, 
+        color: { id: number, descripcion: string },
+        tamanio: {id: number, descripcion: string }
+    }
+    cantidad: number;
+    cantidadPrevia: number;
+    diferencia: number;
+}

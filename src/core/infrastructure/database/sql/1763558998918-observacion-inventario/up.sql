@@ -1,0 +1,1 @@
+ALTER TABLE IF EXISTS inventario.inventario ADD COLUMN observacion character varying(80);
