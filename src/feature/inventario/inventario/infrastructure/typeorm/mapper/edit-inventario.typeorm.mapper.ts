@@ -10,6 +10,7 @@ export class EditInventarioTypeORMMapper {
         const inventarioOrm = new InventarioTypeORMModel();
         inventarioOrm.id = editInventario.id;
         inventarioOrm.fecha = format(editInventario.fecha, "yyyy/MM/dd");
+        if(editInventario.observacion) inventarioOrm.observacion = editInventario.observacion;
         inventarioOrm.detalleInventario = editInventario.detalles.map(detalle => {
             if(detalle instanceof DetalleInventario) return DetalleInventarioTypeORMMapper.toORM(detalle);
             return NewDetalleInventarioTypeORMMapper.toORM(detalle);

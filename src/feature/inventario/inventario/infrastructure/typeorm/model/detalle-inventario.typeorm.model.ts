@@ -20,8 +20,8 @@ export class DetalleInventarioTypeORMModel {
     @Column({name: 'cantidad', nullable: false, scale: 6, precision: 2})
     cantidad: string;
 
-    @Column({name: 'diferencia', nullable: false, scale: 6, precision: 2})
-    diferencia: string;
+    @Column({name: 'cantidad_previa', nullable: false, scale: 6, precision: 2})
+    cantidadPrevia: string;
 
     @Column({name: 'eliminado', nullable: false, default: false})
     eliminado: boolean;

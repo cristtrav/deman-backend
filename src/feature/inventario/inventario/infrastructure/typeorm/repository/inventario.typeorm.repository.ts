@@ -28,8 +28,10 @@ export class InventarioTypeORMRepository implements InventarioRepository {
         );
     }
 
-    delete(id: number): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: number): Promise<void> {
+        const inventario = await this.inventarioTypeOrmRepo.findOneByOrFail({id});
+        inventario.eliminado = true;
+        await this.inventarioTypeOrmRepo.save(inventario);
     }
 
     async findById(id: number): Promise<Inventario | null> {

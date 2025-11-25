@@ -9,6 +9,9 @@ export class InventarioTypeORMModel {
     @Column({name: 'fecha', type: 'date', nullable: false})
     fecha: string;
 
+    @Column({name: 'observacion', nullable: true, length: 80})
+    observacion: string;
+
     @Column({name: 'eliminado', nullable: false, default: false})
     eliminado: boolean;
 

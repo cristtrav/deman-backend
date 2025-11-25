@@ -7,6 +7,7 @@ export class DetalleInventario {
     private _producto: Producto;
     private _variante: Variante;
     private _cantidad: number;
+    private _cantidadPrevia: number;
     private _diferencia: number;
 
     constructor(
@@ -14,26 +15,28 @@ export class DetalleInventario {
         producto: Producto,
         variante: Variante,
         cantidad: number,
-        diferencia: number
+        cantidadPrevia: number
     ){
         if(id == null) throw new RequiredFieldException('DetalleInventario', 'id');
         if(producto == null) throw new RequiredFieldException('DetalleInventario', 'producto');
         if(variante == null) throw new RequiredFieldException('DetalleInventario', 'variante');
         if(cantidad == null) throw new RequiredFieldException('DetalleInventario', 'cantidad');
-        if(diferencia == null) throw new RequiredFieldException('DetalleInventario', 'diferencia');
+        if(cantidadPrevia == null) throw new RequiredFieldException('DetalleInventario', 'cantidadPrevia');
 
         this._id = id;
         this._producto = producto;
         this._variante = variante;
         this._cantidad = cantidad;
-        this._diferencia = diferencia;
+        this._cantidadPrevia = cantidadPrevia;
+        this._diferencia = cantidad - cantidadPrevia;
     }
 
     get id(): number { return this._id }
     get producto(): Producto { return this._producto }
     get variante(): Variante { return this._variante }
     get cantidad(): number { return this._cantidad }
-    get diferencia(): number { return this._diferencia } 
+    get cantidadPrevia(): number { return this._cantidadPrevia } 
+    get diferencia(): number { return this._diferencia }
 
     set id(val: number){
         if(val == null) throw new RequiredFieldException('DetalleInventario', 'id');
@@ -50,10 +53,12 @@ export class DetalleInventario {
     set cantidad(val: number){
         if(val == null) throw new RequiredFieldException('DetalleInventario', 'cantidad');
         this._cantidad = val;
+        this._diferencia = this._cantidad - this._cantidadPrevia;
     }
-    set diferencia(val: number){
-        if(val == null) throw new RequiredFieldException('DetalleInventario', 'diferencia');
-        this._diferencia = val;
+    set cantidadPrevia(val: number){
+        if(val == null) throw new RequiredFieldException('DetalleInventario', 'cantidadPrevia');
+        this._cantidadPrevia = val;
+        this._diferencia = this._cantidad - this._cantidadPrevia;
     }
 
     clone(): DetalleInventario {
@@ -62,7 +67,7 @@ export class DetalleInventario {
             this._producto,
             this._variante,
             this._cantidad,
-            this._diferencia
+            this._cantidadPrevia
         );
     }
 }

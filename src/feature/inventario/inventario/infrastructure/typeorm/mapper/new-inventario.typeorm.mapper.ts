@@ -5,10 +5,9 @@ import { format } from 'date-fns';
 
 export class NewInventarioTypeORMMapper{
     static toORM(newInventario: NewInventario): InventarioTypeORMModel{
-        console.log('orm date')
-        console.log(format(newInventario.fecha, 'yyyy-MM-dd'))
         const newInventarioOrm = new InventarioTypeORMModel();
         newInventarioOrm.fecha = format(newInventario.fecha, 'yyyy-MM-dd');
+        if(newInventario.observacion) newInventarioOrm.observacion = newInventario.observacion;
         newInventarioOrm.detalleInventario = newInventario.detalles.map(d => NewDetalleInventarioTypeORMMapper.toORM(d))
         return newInventarioOrm;
     }

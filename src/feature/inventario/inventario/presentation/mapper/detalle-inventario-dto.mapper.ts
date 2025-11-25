@@ -32,6 +32,7 @@ export class DetalleInventarioDTOMapper {
                 }
             },
             cantidad: detalleInventario.cantidad,
+            cantidadPrevia: detalleInventario.cantidadPrevia,
             diferencia: detalleInventario.diferencia
         }
     }

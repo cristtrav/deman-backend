@@ -5,21 +5,25 @@ import { NewDetalleInventario } from "./new-detalle-inventario";
 export class EditInventario {
     private _id: number;
     private _fecha: Date;
+    private _observacion?: string;
     private _detalles: (DetalleInventario | NewDetalleInventario)[]
 
-    constructor(id: number, fecha: Date){
+    constructor(id: number, fecha: Date, observacion?: string){
         if(id == null) throw new RequiredFieldException('Inventario', 'id');
         if(fecha == null) throw new RequiredFieldException('Inventario', 'fecha')
         this._id = id;
         this._fecha = fecha;
         this._detalles = [];
+        this._observacion = observacion;
     }
 
     get id(): number { return this._id }
     get fecha(): Date { return this._fecha }
+    get observacion(): string | undefined { return this._observacion }
 
     set id(value: number){ this._id = value }
     set fecha(value: Date){ this._fecha = value }
+    set observacion(value: string | undefined){ this._observacion = value }
 
     get detalles(): ReadonlyArray<DetalleInventario | NewDetalleInventario>{
         return this._detalles.map(d => d.clone());

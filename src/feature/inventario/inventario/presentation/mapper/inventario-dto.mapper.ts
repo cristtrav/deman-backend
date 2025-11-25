@@ -8,6 +8,7 @@ export class InventarioDTOMapper {
         return {
             id: inventario.id,
             fecha: format(inventario.fecha, "yyyy-MM-dd"),
+            observacion: inventario.observacion,
             detalles: inventario.detalles.map(d => DetalleInventarioDTOMapper.toDTO(d))
         }
     }

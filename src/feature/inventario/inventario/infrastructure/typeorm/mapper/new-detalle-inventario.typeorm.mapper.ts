@@ -7,7 +7,7 @@ export class NewDetalleInventarioTypeORMMapper {
         detalleInventarioOrm.idProducto = newDetalleInventario.producto.id;
         detalleInventarioOrm.idVariante = newDetalleInventario.variante.id;
         detalleInventarioOrm.cantidad = `${newDetalleInventario.cantidad}`;
-        detalleInventarioOrm.diferencia = `${newDetalleInventario.diferencia}`;
+        detalleInventarioOrm.cantidadPrevia = `${newDetalleInventario.diferencia}`;
         return detalleInventarioOrm;
     }
 }

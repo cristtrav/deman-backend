@@ -15,6 +15,7 @@ import { ResultContract } from "@core/application/contract/result/result.contrac
 interface InventarioData {
     id?: number,
     fecha: Date,
+    observacion?: string,
     detalles: DetalleInventarioData[]
 }
 
@@ -37,7 +38,8 @@ export class CrearInventarioUseCase extends BaseUseCase<CommandContract<Inventar
     ){ super() }
     
     async execute(command: CommandContract<InventarioData>): Promise<ResultContract<Inventario>> {
-        const newInventario = new NewInventario(command.data.fecha);
+        const newInventario = new NewInventario(command.data.fecha, command.data.observacion);
+        console.log(command)
         for(let detalleData of command.data.detalles){
             const producto = await this.productoRepository.findById(detalleData.idproducto);
             const variante = await this.varianteRepository.findById(detalleData.idvariante);
@@ -50,8 +52,8 @@ export class CrearInventarioUseCase extends BaseUseCase<CommandContract<Inventar
                 const newStock = new Stock(stockId, 0, new Date(), 0);
                 stock = await this.stockRepository.create(newStock);
             }
-            const diferencia = detalleData.cantidad - stock.cantidad;
-            const newDetalle = new NewDetalleInventario(producto, variante, detalleData.cantidad, diferencia);
+            //const diferencia = detalleData.cantidad - stock.cantidad;
+            const newDetalle = new NewDetalleInventario(producto, variante, detalleData.cantidad, stock.cantidad);
             stock.cantidad = detalleData.cantidad;
             await this.stockRepository.edit(stock);
             newInventario.agregarDetalle(newDetalle);

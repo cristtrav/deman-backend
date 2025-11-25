@@ -15,5 +15,6 @@ export class DetalleInventarioDTO {
         tamanio: {id: number, descripcion: string }
     }
     cantidad: number;
+    cantidadPrevia: number;
     diferencia: number;
 }

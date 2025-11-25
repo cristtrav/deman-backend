@@ -15,6 +15,7 @@ import { NewDetalleInventario } from "../../domain/model/new-detalle-inventario"
 interface InventarioData {
     id: number,
     fecha: Date,
+    observacion?: string,
     detalles: DetalleInventarioData[]
 }
 
@@ -43,17 +44,10 @@ export class EditarInventarioUseCase extends BaseUseCase<EditarInventarioCommand
     async execute(command: EditarInventarioCommand): Promise<ResultContract<Inventario>> {
         const previousInventario = await this.inventarioRepository.findById(command.previousId);
         if(previousInventario == null) throw new NotFoundException('Inventario', command.previousId);
-
-        for(let detalle of previousInventario.detalles){
-            const previousStockId = new StockId(this.defaultIdDeposito, detalle.producto.id, detalle.variante.id)
-            const previousStock = await this.stockRepository.findById(previousStockId);
-            if(previousStock == null) throw new NotFoundException('Stock', JSON.stringify(previousStockId));
-            previousStock.cantidad = detalle.cantidad - detalle.diferencia;
-            await this.stockRepository.edit(previousStock);
-        }
         
-        const inventario = new EditInventario(command.data.id, command.data.fecha);
+        const inventario = new EditInventario(command.data.id, command.data.fecha, command.data.observacion);
         for(let detalleData of command.data.detalles){
+            const previousDetalle = previousInventario.detalles.find(d => d.id == detalleData.id);
             const producto = await this.productoRepository.findById(detalleData.idproducto);
             const variante = await this.varianteRepository.findById(detalleData.idvariante);
             if(producto == null) throw new NotFoundException('Produdcto', detalleData.idproducto);
@@ -62,15 +56,16 @@ export class EditarInventarioUseCase extends BaseUseCase<EditarInventarioCommand
             const stockId = new StockId(this.defaultIdDeposito, producto.id, variante.id);
             const stock = await this.stockRepository.findById(stockId);
             if(stock == null) throw new NotFoundException('Stock', JSON.stringify(stockId));
-            let diferencia = detalleData.cantidad - stock.cantidad;
-            stock.cantidad = detalleData.cantidad;
 
-            await this.stockRepository.edit(stock);
+            const cantidadPrevia = previousDetalle?.cantidadPrevia ?? stock.cantidad;
             inventario.agregarDetalle(
                 detalleData.id != null ?
-                new DetalleInventario(detalleData.id, producto, variante, detalleData.cantidad, diferencia) :
-                new NewDetalleInventario(producto, variante, detalleData.cantidad, diferencia)
+                new DetalleInventario(detalleData.id, producto, variante, detalleData.cantidad, cantidadPrevia) :
+                new NewDetalleInventario(producto, variante, detalleData.cantidad, cantidadPrevia)
             );
+
+            stock.cantidad = detalleData.cantidad;
+            await this.stockRepository.edit(stock);
         }
         const savedInventario = await this.inventarioRepository.edit(inventario);
         return { data: savedInventario }

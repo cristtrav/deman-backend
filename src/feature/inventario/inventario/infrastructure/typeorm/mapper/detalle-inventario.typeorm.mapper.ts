@@ -10,7 +10,7 @@ export class DetalleInventarioTypeORMMapper{
             ProductoTypeORMMapper.toDomain(detalleInventarioOrm.producto),
             VarianteTypeORMMapper.toDomain(detalleInventarioOrm.variante),
             Number(detalleInventarioOrm.cantidad),
-            Number(detalleInventarioOrm.diferencia)
+            Number(detalleInventarioOrm.cantidadPrevia)
         );
         return detalleInventario;
     }
@@ -21,7 +21,7 @@ export class DetalleInventarioTypeORMMapper{
         detalleOrm.idProducto = detalleInventario.producto.id;
         detalleOrm.idVariante = detalleInventario.variante.id;
         detalleOrm.cantidad = `${detalleInventario.cantidad}`;
-        detalleOrm.diferencia = `${detalleInventario.diferencia}`
+        detalleOrm.cantidadPrevia = `${detalleInventario.cantidadPrevia}`
         return detalleOrm;
     }
 }

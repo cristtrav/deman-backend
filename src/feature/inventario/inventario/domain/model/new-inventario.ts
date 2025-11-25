@@ -4,14 +4,19 @@ import { NewDetalleInventario } from "./new-detalle-inventario";
 export class NewInventario {
     private _fecha: Date;
     private _detalles: NewDetalleInventario[]
+    private _observacion?: string;
 
-    constructor(fecha: Date, id?: number){
+    constructor(fecha: Date, observacion?: string){
         if(fecha == null) throw new RequiredFieldException('Inventario', 'fecha')
         this._fecha = fecha;
         this._detalles = [];
+        this._observacion = observacion;
     }
 
     get fecha(): Date { return this._fecha }
+    get observacion(): string | undefined { return this._observacion }
+
+    set observacion(value: string | undefined){ this._observacion = value }
     set fecha(value: Date){ this._fecha = value }
 
     get detalles(): ReadonlyArray<NewDetalleInventario>{

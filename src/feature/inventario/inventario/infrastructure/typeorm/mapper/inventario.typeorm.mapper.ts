@@ -5,7 +5,7 @@ import { format } from "date-fns";
 
 export class InventarioTypeORMMapper {
     static toDomain(inventarioOrm: InventarioTypeORMModel): Inventario {
-        const inventario = new Inventario(inventarioOrm.id, new Date(`${inventarioOrm.fecha}T00:00:00`));
+        const inventario = new Inventario(inventarioOrm.id, new Date(`${inventarioOrm.fecha}T00:00:00`), inventarioOrm.observacion);
         inventario.agregarDetalles(
             inventarioOrm.detalleInventario.map(detalleOrm => DetalleInventarioTypeORMMapper.toDomain(detalleOrm))
         );
@@ -16,6 +16,7 @@ export class InventarioTypeORMMapper {
         const inventarioOrm = new InventarioTypeORMModel();
         inventarioOrm.id = inventario.id;
         inventarioOrm.fecha = format(inventario.fecha, "yyyy-MM-dd");
+        if(inventario.observacion) inventarioOrm.observacion = inventario.observacion
         inventarioOrm.detalleInventario = inventario.detalles.map(
             di => DetalleInventarioTypeORMMapper.toORM(di)
         );
