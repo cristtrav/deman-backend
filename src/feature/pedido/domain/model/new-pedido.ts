@@ -1,0 +1,42 @@
+import { Temporal } from "@js-temporal/polyfill";
+import { Cliente } from "./cliente";
+
+export class NewPedido {    
+    private _fechaPedido: Temporal.PlainDate;
+    private _fechaConfirmacion: Temporal.PlainDate;
+    private _fechaEntrega: Temporal.PlainDate;
+    private _confirmado: boolean;
+    private _entregado: boolean;
+    private _cliente: Cliente;
+    private _total: number;
+    private _descripcion: string;
+
+    constructor(        
+        fechaPedido: Temporal.PlainDate,
+        fechaConfirmacion: Temporal.PlainDate,
+        fechaEntrega: Temporal.PlainDate,
+        confirmado: boolean,
+        entregado: boolean,
+        cliente: Cliente,
+        total: number,
+        descripcion: string,
+    ){        
+        this._fechaPedido = fechaPedido;
+        this._fechaConfirmacion = fechaConfirmacion;
+        this._fechaEntrega = fechaEntrega;
+        this._confirmado = confirmado;
+        this._entregado = entregado;
+        this._cliente = cliente;
+        this._total = total;
+        this._descripcion = descripcion;
+    }
+
+    get fechaPedido(): Temporal.PlainDate { return this._fechaPedido }
+    get fechaConfirmacion(): Temporal.PlainDate { return this._fechaConfirmacion }
+    get fechaEntrega(): Temporal.PlainDate { return this._fechaEntrega }
+    get confirmado(): boolean { return this._confirmado }
+    get entregado(): boolean { return this._entregado }
+    get cliente(): Cliente { return this._cliente }
+    get total(): number { return this._total }
+    get descripcion(): string { return this._descripcion }    
+}

@@ -15,6 +15,7 @@ import { UsuarioModule } from '@feature/auth/usuario/infrastructure/module/usuar
 import { InventarioModule } from './feature/inventario/inventario/infrastructure/module/inventario.module';
 import { ProductoVarianteModule } from './feature/inventario/producto-variante/infrastructure/module/producto-variante.module';
 import { VentaModule } from './feature/facturacion/venta/infrastructure/module/venta.module';
+import { PedidoModule } from '@feature/pedido/infrastructure/module/pedido.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { VentaModule } from './feature/facturacion/venta/infrastructure/module/v
     UnidadMedidaModule,
     InventarioModule,
     ProductoVarianteModule,
-    VentaModule,    
+    VentaModule,
+    PedidoModule
   ],
   controllers: [AppController],
   providers: [

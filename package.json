@@ -25,6 +25,7 @@
     "migration:create": "npm run typeorm -- migration:create ./src/core/infrastructure/database/migrations/$npm_config_name"
   },
   "dependencies": {
+    "@js-temporal/polyfill": "^0.5.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
