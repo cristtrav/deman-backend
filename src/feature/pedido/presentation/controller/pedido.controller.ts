@@ -1,5 +1,5 @@
 import { CrearPedidoUseCase } from "@feature/pedido/application/usecase/crear-pedido.usecase";
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
 import { NewPedidoDTO } from "../dto/new-pedido.dto";
 import { ApiResponseDTO } from "@core/presentation/dto/response/api-response.dto";
 import { PedidoDTO } from "../dto/pedido.dto";
@@ -9,13 +9,16 @@ import { ConsultarPedidosUseCase } from "@feature/pedido/application/usecase/con
 import { GetPedidosQueryParamDTO } from "../dto/http/get-pedidos-query-param.dto";
 import { GetQueryParamsMapper } from "@core/presentation/mapper/get-query-params.mapper";
 import { PaginationApiMapper } from "@core/presentation/mapper/pagination-api.mapper";
+import { EditarPedidoUseCase } from "@feature/pedido/application/usecase/editar-pedido.usecase";
+import { EditPedidoDTO } from "../dto/edit-pedido.dto";
 
 @Controller('pedidos')
 export class PedidoController {
     constructor(
         private readonly crearPedidoUseCase: CrearPedidoUseCase,
         private readonly consultarPedidoPorIdUseCase: ConsultarPedidoPorIdUseCase,
-        private readonly consultarPedidosUseCase: ConsultarPedidosUseCase
+        private readonly consultarPedidosUseCase: ConsultarPedidosUseCase,
+        private readonly editarPedidoUseCase: EditarPedidoUseCase
     ) {}
 
     @Get(':id')
@@ -57,5 +60,20 @@ export class PedidoController {
             message: "Pedidos consultados exitosamente",
             pagination: result.page ? PaginationApiMapper.toApiResponsePaginationDTO(result.page) : undefined
         });
+    }
+
+    @Put(':previousId')
+    async editarPedido(
+        @Param('previousId', ParseIntPipe) previousId: number,
+        @Body() pedidoDto: EditPedidoDTO
+    ): Promise<ApiResponseDTO<PedidoDTO>>{
+        const result = await this.editarPedidoUseCase.execute({
+            data: PedidoDTOMapper.toEditarData(pedidoDto),
+            previousId
+        });
+        return ApiResponseDTO.success({
+            data: PedidoDTOMapper.toDTO(result.data),
+            message: 'Pedido editado correctamente'
+        })
     }
 }

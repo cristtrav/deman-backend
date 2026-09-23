@@ -3,6 +3,8 @@ import { PedidoData } from "../contract/data/pedido.data";
 import { NewPedidoDTO } from "@feature/pedido/presentation/dto/new-pedido.dto";
 import { CrearPedidoData } from "../contract/data/crear-pedido.data";
 import { ClienteDataMapper } from "./cliente-data.mapper";
+import { EditarPedidoData } from "../contract/data/editar-pedido.data";
+import { Cliente } from "@feature/pedido/domain/model/cliente";
 
 export class PedidoDataMapper {
     static toData(pedido: Pedido): PedidoData {
@@ -21,16 +23,4 @@ export class PedidoDataMapper {
         return pedidoData;
     }
 
-    static toCrearData(newPedidoDto: NewPedidoDTO): CrearPedidoData {
-        return {
-            fechaPedido: newPedidoDto.fechaPedido.toString(),
-            fechaConfirmacion: newPedidoDto.fechaPedido.toString(),
-            fechaEntrega: newPedidoDto.fechaEntrega.toString(),
-            confirmado: true,
-            entregado: true,
-            clienteId: newPedidoDto.clienteId,
-            total: newPedidoDto.total,
-            descripcion: newPedidoDto.descripcion
-        };
-    }
 }

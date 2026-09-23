@@ -45,6 +45,7 @@ export class PedidoTypeORMMapper {
         pedidoOrm.fechaPedido = pedido.fechaPedido.toString();
         pedidoOrm.fechaConfirmacion = pedido.fechaConfirmacion.toString();
         pedidoOrm.fechaEntrega = pedido.fechaEntrega.toString();
+        pedidoOrm.fechaEntregado = pedido.fechaEntregado?.toString() ?? null;
         pedidoOrm.confirmado = pedido.confirmado;
         pedidoOrm.entregado = pedido.entregado;
         pedidoOrm.cliente = ClienteTypeORMMapper.toORM(pedido.cliente);
