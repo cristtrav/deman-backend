@@ -13,7 +13,7 @@ export class PedidoTypeORMRepository implements PedidoRepository {
     ){}
 
     async findById(id: number): Promise<Pedido | null> {
-        let pedidoOrm = await this.pedidoTypeOrmRepository.findOne({where: { id }});
+        let pedidoOrm = await this.pedidoTypeOrmRepository.findOne({where: { id, eliminado: false }});
         return pedidoOrm ? PedidoTypeORMMapper.toDomain(pedidoOrm) : null;
     }
 

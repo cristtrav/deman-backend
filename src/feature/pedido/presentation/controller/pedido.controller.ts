@@ -1,5 +1,5 @@
 import { CrearPedidoUseCase } from "@feature/pedido/application/usecase/crear-pedido.usecase";
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
 import { NewPedidoDTO } from "../dto/new-pedido.dto";
 import { ApiResponseDTO } from "@core/presentation/dto/response/api-response.dto";
 import { PedidoDTO } from "../dto/pedido.dto";
@@ -11,6 +11,7 @@ import { GetQueryParamsMapper } from "@core/presentation/mapper/get-query-params
 import { PaginationApiMapper } from "@core/presentation/mapper/pagination-api.mapper";
 import { EditarPedidoUseCase } from "@feature/pedido/application/usecase/editar-pedido.usecase";
 import { EditPedidoDTO } from "../dto/edit-pedido.dto";
+import { EliminarPedidoUseCase } from "@feature/pedido/application/usecase/eliminar-pedido.usecase";
 
 @Controller('pedidos')
 export class PedidoController {
@@ -18,7 +19,8 @@ export class PedidoController {
         private readonly crearPedidoUseCase: CrearPedidoUseCase,
         private readonly consultarPedidoPorIdUseCase: ConsultarPedidoPorIdUseCase,
         private readonly consultarPedidosUseCase: ConsultarPedidosUseCase,
-        private readonly editarPedidoUseCase: EditarPedidoUseCase
+        private readonly editarPedidoUseCase: EditarPedidoUseCase,
+        private readonly eliminarPedidoUseCase: EliminarPedidoUseCase
     ) {}
 
     @Get(':id')
@@ -75,5 +77,15 @@ export class PedidoController {
             data: PedidoDTOMapper.toDTO(result.data),
             message: 'Pedido editado correctamente'
         })
+    }
+
+    @Delete(':id')
+    async eliminarPedido(
+        @Param('id', ParseIntPipe) id: number
+    ): Promise<ApiResponseDTO<void>>{
+        await this.eliminarPedidoUseCase.execute({data: { id }});
+        return ApiResponseDTO.success({
+            message: 'Pedido eliminado correctamente'
+        });
     }
 }
