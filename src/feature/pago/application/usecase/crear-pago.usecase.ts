@@ -8,13 +8,18 @@ import { Temporal } from "@js-temporal/polyfill";
 import { CrearPagoCommand } from "../contract/command/crear-pago.command";
 import { PagoData } from "../contract/data/pago.data";
 import { PagoDataMapper } from "../mapper/pago-data.mapper";
+import { SaldoPedidoService } from "../service/saldo-pedido.service";
 
 export class CrearPagoUseCase extends BaseUseCase<CrearPagoCommand, ResultContract<PagoData>> {
+    private readonly saldoPedidoService: SaldoPedidoService;
 
     constructor(
         private readonly pagoRepository: PagoRepository,
         private readonly pedidoRepository: PedidoRepository
-    ) { super(); }
+    ) {
+        super();
+        this.saldoPedidoService = new SaldoPedidoService(pagoRepository, pedidoRepository);
+    }
 
     async execute(command: CrearPagoCommand): Promise<ResultContract<PagoData>> {
         const pedido = await this.pedidoRepository.findById(command.data.pedidoId);
@@ -26,6 +31,7 @@ export class CrearPagoUseCase extends BaseUseCase<CrearPagoCommand, ResultContra
             command.data.monto
         );
         const savedPago = await this.pagoRepository.create(newPago);
+        await this.saldoPedidoService.recalcular(pedido);
         return { data: PagoDataMapper.toData(savedPago) };
     }
 }

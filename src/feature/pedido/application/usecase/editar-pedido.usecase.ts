@@ -33,7 +33,8 @@ export class EditarPedidoUseCase extends BaseUseCase<EditarPedidoCommand, Result
             command.data.fechaEntregado != null,
             cliente,
             command.data.total,
-            command.data.descripcion
+            command.data.descripcion,
+            previousPedido.calcularSaldo(command.data.total)
         );
 
         const savedPedido = await this.pedidoRepository.update(pedido);

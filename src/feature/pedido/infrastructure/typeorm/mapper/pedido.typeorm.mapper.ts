@@ -17,7 +17,8 @@ export class PedidoTypeORMMapper {
             pedidoOrm.entregado,
             ClienteTypeORMMapper.toDomain(pedidoOrm.cliente),
             pedidoOrm.total,
-            pedidoOrm.descripcion
+            pedidoOrm.descripcion,
+            pedidoOrm.saldo
         );
     }
 
@@ -35,6 +36,7 @@ export class PedidoTypeORMMapper {
         pedidoOrm.entregado = pedido.entregado;
         pedidoOrm.cliente = ClienteTypeORMMapper.toORM(pedido.cliente);
         pedidoOrm.total = pedido.total;
+        pedidoOrm.saldo = pedido.saldo;
         pedidoOrm.descripcion = pedido.descripcion;
         return pedidoOrm;
     }
@@ -50,6 +52,7 @@ export class PedidoTypeORMMapper {
         pedidoOrm.entregado = pedido.entregado;
         pedidoOrm.cliente = ClienteTypeORMMapper.toORM(pedido.cliente);
         pedidoOrm.total = pedido.total;
+        pedidoOrm.saldo = pedido.saldo;
         pedidoOrm.descripcion = pedido.descripcion;
         return pedidoOrm;
     }
@@ -65,6 +68,7 @@ export class PedidoTypeORMMapper {
             entregado: pedidoOrm.entregado,
             cliente: ClienteTypeORMMapper.toData(pedidoOrm.cliente),
             total: pedidoOrm.total,
+            saldo: pedidoOrm.saldo,
             descripcion: pedidoOrm.descripcion
         };
     }

@@ -10,5 +10,6 @@ export interface PedidoData{
     entregado: boolean,
     cliente: ClienteData,
     total: number,
+    saldo: number,
     descripcion: string
 }

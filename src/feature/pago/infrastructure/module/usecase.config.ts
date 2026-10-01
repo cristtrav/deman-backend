@@ -40,7 +40,10 @@ export default <Provider[]>[
     },
     {
         provide: EliminarPagoUseCase,
-        useFactory: (pagoRepository: PagoRepository) => new EliminarPagoUseCase(pagoRepository),
-        inject: [PagoRepository]
+        useFactory: (
+            pagoRepository: PagoRepository,
+            pedidoRepository: PedidoRepository
+        ) => new EliminarPagoUseCase(pagoRepository, pedidoRepository),
+        inject: [PagoRepository, PedidoRepository]
     }
 ]

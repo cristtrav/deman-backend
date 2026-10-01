@@ -1,0 +1,1 @@
+ALTER TABLE IF EXISTS pedidos.pedido DROP COLUMN IF EXISTS saldo;

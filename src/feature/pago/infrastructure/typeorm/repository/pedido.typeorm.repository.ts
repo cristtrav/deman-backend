@@ -16,4 +16,8 @@ export class PedidoTypeORMRepository implements PedidoRepository {
         const pedidoOrm = await this.pedidoTypeOrmRepository.findOne({ where: { id, eliminado: false } });
         return pedidoOrm ? PedidoTypeORMMapper.toDomain(pedidoOrm) : null;
     }
+
+    async actualizarSaldo(pedido: Pedido): Promise<void> {
+        await this.pedidoTypeOrmRepository.update({ id: pedido.id }, { saldo: pedido.saldo });
+    }
 }

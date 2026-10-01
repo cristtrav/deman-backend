@@ -27,6 +27,15 @@ export class PedidoTypeORMModel {
     @Column({name: 'total', type: 'numeric', precision: 10, scale: 2})
     total: number;
 
+    @Column({
+        name: 'saldo',
+        type: 'numeric',
+        precision: 9,
+        scale: 0,
+        transformer: { to: (value: number) => value, from: (value: string) => Number(value) }
+    })
+    saldo: number;
+
     @Column({name: 'descripcion', type: 'text'})
     descripcion: string;
 

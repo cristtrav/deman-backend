@@ -8,13 +8,18 @@ import { Temporal } from "@js-temporal/polyfill";
 import { EditarPagoCommand } from "../contract/command/editar-pago.command";
 import { PagoData } from "../contract/data/pago.data";
 import { PagoDataMapper } from "../mapper/pago-data.mapper";
+import { SaldoPedidoService } from "../service/saldo-pedido.service";
 
 export class EditarPagoUseCase extends BaseUseCase<EditarPagoCommand, ResultContract<PagoData>> {
+    private readonly saldoPedidoService: SaldoPedidoService;
 
     constructor(
         private readonly pagoRepository: PagoRepository,
         private readonly pedidoRepository: PedidoRepository
-    ){ super(); }
+    ){
+        super();
+        this.saldoPedidoService = new SaldoPedidoService(pagoRepository, pedidoRepository);
+    }
 
     async execute(command: EditarPagoCommand): Promise<ResultContract<PagoData>> {
         const previousPago = await this.pagoRepository.findById(command.previousId);
@@ -31,6 +36,9 @@ export class EditarPagoUseCase extends BaseUseCase<EditarPagoCommand, ResultCont
         );
 
         const savedPago = await this.pagoRepository.update(pago);
+        await this.saldoPedidoService.recalcular(pedido);
+        // Si el pago se movió a otro pedido, el pedido anterior también cambia de saldo
+        if(previousPago.pedido.id != pedido.id) await this.saldoPedidoService.recalcular(previousPago.pedido);
         return { data: PagoDataMapper.toData(savedPago) };
     }
 }

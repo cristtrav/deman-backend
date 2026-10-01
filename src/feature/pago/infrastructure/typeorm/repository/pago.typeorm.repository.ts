@@ -17,6 +17,11 @@ export class PagoTypeORMRepository implements PagoRepository {
         return pagoOrm ? PagoTypeORMMapper.toDomain(pagoOrm) : null;
     }
 
+    async findByPedido(pedidoId: number): Promise<Pago[]> {
+        const pagosOrm = await this.pagoTypeOrmRepository.find({where: { pedido: { id: pedidoId }, eliminado: false }});
+        return pagosOrm.map(pagoOrm => PagoTypeORMMapper.toDomain(pagoOrm));
+    }
+
     async create(pago: NewPago): Promise<Pago> {
         const savedPago = await this.pagoTypeOrmRepository.save(PagoTypeORMMapper.toORM(pago));
         return PagoTypeORMMapper.toDomain(savedPago);

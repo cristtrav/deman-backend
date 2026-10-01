@@ -12,6 +12,7 @@ export class Pedido {
     private _cliente: Cliente;
     private _total: number;
     private _descripcion: string;
+    private _saldo: number;
 
     constructor(
         id: number,
@@ -24,6 +25,7 @@ export class Pedido {
         cliente: Cliente,
         total: number,
         descripcion: string,
+        saldo: number,
     ){
         this._id = id;
         this._fechaPedido = fechaPedido;
@@ -35,6 +37,7 @@ export class Pedido {
         this._cliente = cliente;
         this._total = total;
         this._descripcion = descripcion;
+        this._saldo = saldo;
     }
 
     get id(): number { return this._id }
@@ -46,5 +49,14 @@ export class Pedido {
     get entregado(): boolean { return this._entregado }
     get cliente(): Cliente { return this._cliente }
     get total(): number { return this._total }
-    get descripcion(): string { return this._descripcion }    
+    get descripcion(): string { return this._descripcion }
+    get saldo(): number { return this._saldo }
+    get totalPagado(): number { return this._total - this._saldo }
+
+    /**
+     * Saldo que tendría el pedido con un nuevo total, conservando lo ya pagado.
+     */
+    calcularSaldo(nuevoTotal: number): number {
+        return nuevoTotal - this.totalPagado;
+    }    
 }

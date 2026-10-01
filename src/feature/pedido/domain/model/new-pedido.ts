@@ -38,5 +38,6 @@ export class NewPedido {
     get entregado(): boolean { return this._entregado }
     get cliente(): Cliente { return this._cliente }
     get total(): number { return this._total }
+    get saldo(): number { return this._total }
     get descripcion(): string { return this._descripcion }    
 }

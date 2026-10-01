@@ -12,4 +12,5 @@ export class PedidoDTO {
     entregado: boolean;
     descripcion: string;    
     total: number;
+    saldo: number;
 }
