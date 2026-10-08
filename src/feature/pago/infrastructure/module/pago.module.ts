@@ -6,6 +6,7 @@ import { ClienteTypeORMModel } from "../typeorm/model/cliente.typeorm.model";
 import { ReciboTypeORMModel } from "../typeorm/model/recibo.typeorm.model";
 import { MovimientoSaldoTypeORMModel } from "../typeorm/model/movimiento-saldo.typeorm.model";
 import { NumeracionTypeORMModel } from "../typeorm/model/numeracion.typeorm.model";
+import { EmpresaTypeORMModel } from "../typeorm/model/empresa.typeorm.model";
 import repositoryConfig from "./repository.config";
 import readRepositoryConfig from "./read-repository.config";
 import usecaseConfig from "./usecase.config";
@@ -20,7 +21,8 @@ import { PedidoPagoController } from "@feature/pago/presentation/controller/pedi
             ClienteTypeORMModel,
             ReciboTypeORMModel,
             MovimientoSaldoTypeORMModel,
-            NumeracionTypeORMModel
+            NumeracionTypeORMModel,
+            EmpresaTypeORMModel
         ])
     ],
     providers: [

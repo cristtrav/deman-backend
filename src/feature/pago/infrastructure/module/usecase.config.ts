@@ -9,6 +9,7 @@ import { PedidoRepository } from "@feature/pago/domain/repository/pedido.reposit
 import { ReciboRepository } from "@feature/pago/domain/repository/recibo.repository";
 import { MovimientoSaldoRepository } from "@feature/pago/domain/repository/movimiento-saldo.repository";
 import { NumeracionReciboRepository } from "@feature/pago/domain/repository/numeracion-recibo.repository";
+import { EmpresaRepository } from "@feature/pago/domain/repository/empresa.repository";
 import { Provider } from "@nestjs/common";
 
 export default <Provider[]>[
@@ -33,14 +34,16 @@ export default <Provider[]>[
             pedidoRepository: PedidoRepository,
             reciboRepository: ReciboRepository,
             movimientoSaldoRepository: MovimientoSaldoRepository,
-            numeracionReciboRepository: NumeracionReciboRepository
+            numeracionReciboRepository: NumeracionReciboRepository,
+            empresaRepository: EmpresaRepository
         ) => new CrearPagoUseCase(
             transactionManager,
             pagoRepository,
             pedidoRepository,
             reciboRepository,
             movimientoSaldoRepository,
-            numeracionReciboRepository
+            numeracionReciboRepository,
+            empresaRepository
         ),
         inject: [
             TransactionManager,
@@ -48,7 +51,8 @@ export default <Provider[]>[
             PedidoRepository,
             ReciboRepository,
             MovimientoSaldoRepository,
-            NumeracionReciboRepository
+            NumeracionReciboRepository,
+            EmpresaRepository
         ]
     },
     {

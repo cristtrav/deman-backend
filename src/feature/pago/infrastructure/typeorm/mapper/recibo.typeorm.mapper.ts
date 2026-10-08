@@ -18,6 +18,12 @@ export class ReciboTypeORMMapper {
             saldoPosterior: reciboOrm.saldoPosterior,
             clienteRazonSocial: reciboOrm.clienteRazonSocial,
             clienteRuc: reciboOrm.clienteRuc ?? undefined,
+            empresa: reciboOrm.empresaNombre != null ? {
+                nombre: reciboOrm.empresaNombre,
+                direccion: reciboOrm.empresaDireccion ?? undefined,
+                ruc: reciboOrm.empresaRuc ?? undefined,
+                telefono: reciboOrm.empresaTelefono ?? undefined
+            } : undefined,
             generadoPorMigracion: reciboOrm.generadoPorMigracion
         };
         const anulacion = reciboOrm.anulado && reciboOrm.fechaAnulacion
@@ -41,6 +47,10 @@ export class ReciboTypeORMMapper {
         reciboOrm.saldoPosterior = datos.saldoPosterior;
         reciboOrm.clienteRazonSocial = datos.clienteRazonSocial;
         reciboOrm.clienteRuc = datos.clienteRuc ?? null;
+        reciboOrm.empresaNombre = datos.empresa?.nombre ?? null;
+        reciboOrm.empresaDireccion = datos.empresa?.direccion ?? null;
+        reciboOrm.empresaRuc = datos.empresa?.ruc ?? null;
+        reciboOrm.empresaTelefono = datos.empresa?.telefono ?? null;
         reciboOrm.generadoPorMigracion = datos.generadoPorMigracion;
         const anulacion = recibo instanceof Recibo ? recibo.anulacion : undefined;
         reciboOrm.anulado = anulacion != null;

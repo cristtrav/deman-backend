@@ -18,6 +18,7 @@ import { ProductoVarianteModule } from './feature/inventario/producto-variante/i
 import { VentaModule } from './feature/facturacion/venta/infrastructure/module/venta.module';
 import { PedidoModule } from '@feature/pedido/infrastructure/module/pedido.module';
 import { PagoModule } from '@feature/pago/infrastructure/module/pago.module';
+import { EmpresaModule } from '@feature/empresa/infrastructure/module/empresa.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { PagoModule } from '@feature/pago/infrastructure/module/pago.module';
     ProductoVarianteModule,
     VentaModule,
     PedidoModule,
-    PagoModule
+    PagoModule,
+    EmpresaModule
   ],
   controllers: [AppController],
   providers: [

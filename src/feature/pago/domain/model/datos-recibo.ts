@@ -3,6 +3,16 @@ import { RequiredFieldException } from "@core/domain/exception/required-field.ex
 import { BusinessRuleException } from "@core/domain/exception/business-rule.exception";
 
 /**
+ * Copia de los datos de la empresa emisora al momento de emitir el recibo.
+ */
+export interface DatosEmpresaRecibo {
+    nombre: string;
+    direccion?: string;
+    ruc?: string;
+    telefono?: string;
+}
+
+/**
  * Datos que se fijan al emitir un recibo. Los saldos son los del pedido en el momento de la emisión.
  */
 export interface DatosRecibo {
@@ -17,6 +27,8 @@ export interface DatosRecibo {
     saldoPosterior: number;
     clienteRazonSocial: string;
     clienteRuc?: string;
+    // Solo puede faltar en los recibos emitidos antes de registrar la empresa
+    empresa?: DatosEmpresaRecibo;
     generadoPorMigracion: boolean;
 }
 
