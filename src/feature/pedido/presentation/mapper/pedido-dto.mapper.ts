@@ -22,6 +22,7 @@ export class PedidoDTOMapper {
         pedidoDTO.descripcion = pedido.descripcion;
         pedidoDTO.total = pedido.total;
         pedidoDTO.saldo = pedido.saldo;
+        pedidoDTO.tienePagos = pedido.tienePagos;
         return pedidoDTO;
     }
 

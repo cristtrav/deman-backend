@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { ClienteTypeORMModel } from "./cliente.typeorm.model";
 
 @Entity({schema: 'pedidos', name: 'pedido'})
 export class PedidoTypeORMModel {
@@ -23,4 +24,8 @@ export class PedidoTypeORMModel {
 
     @Column({name: 'eliminado', type: 'boolean', default: false})
     eliminado: boolean;
+
+    @ManyToOne(() => ClienteTypeORMModel, {eager: true})
+    @JoinColumn({name: 'id_cliente'})
+    cliente: ClienteTypeORMModel;
 }

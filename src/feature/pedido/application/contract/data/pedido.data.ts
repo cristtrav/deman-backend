@@ -11,5 +11,6 @@ export interface PedidoData{
     cliente: ClienteData,
     total: number,
     saldo: number,
-    descripcion: string
+    descripcion: string,
+    tienePagos: boolean
 }

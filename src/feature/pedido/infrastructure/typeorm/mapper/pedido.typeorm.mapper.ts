@@ -18,7 +18,8 @@ export class PedidoTypeORMMapper {
             ClienteTypeORMMapper.toDomain(pedidoOrm.cliente),
             pedidoOrm.total,
             pedidoOrm.descripcion,
-            pedidoOrm.saldo
+            pedidoOrm.saldo,
+            pedidoOrm.tienePagos ?? false
         );
     }
 
@@ -69,7 +70,8 @@ export class PedidoTypeORMMapper {
             cliente: ClienteTypeORMMapper.toData(pedidoOrm.cliente),
             total: pedidoOrm.total,
             saldo: pedidoOrm.saldo,
-            descripcion: pedidoOrm.descripcion
+            descripcion: pedidoOrm.descripcion,
+            tienePagos: pedidoOrm.tienePagos ?? false
         };
     }
 }

@@ -19,7 +19,8 @@ export class PedidoDataMapper {
             cliente: ClienteDataMapper.toData(pedido.cliente),
             total: pedido.total,
             saldo: pedido.saldo,
-            descripcion: pedido.descripcion
+            descripcion: pedido.descripcion,
+            tienePagos: pedido.tienePagos
         };
         return pedidoData;
     }

@@ -8,20 +8,29 @@ import { ClienteRepository } from "@feature/pedido/domain/repository/cliente.rep
 import { NotFoundException } from "@core/application/exception/not-found.exception";
 import { Pedido } from "@feature/pedido/domain/model/pedido";
 import { Temporal } from "@js-temporal/polyfill";
+import { TransactionManager } from "@core/application/transaction/transaction-manager";
 
 export class EditarPedidoUseCase extends BaseUseCase<EditarPedidoCommand, ResultContract<PedidoData>>{
     
     constructor(
+        private readonly transactionManager: TransactionManager,
         private readonly pedidoRepository: PedidoRepository,
         private readonly clienteRepository: ClienteRepository
     ){ super(); }
 
     async execute(command: EditarPedidoCommand): Promise<ResultContract<PedidoData>> {
-        const previousPedido = await this.pedidoRepository.findById(command.previousId);
+        return this.transactionManager.run(() => this.editar(command));
+    }
+
+    private async editar(command: EditarPedidoCommand): Promise<ResultContract<PedidoData>> {
+        // Bloqueado para que no se registre un pago entre la validación del total y el guardado
+        const previousPedido = await this.pedidoRepository.findByIdForUpdate(command.previousId);
         const cliente = await this.clienteRepository.findById(command.data.clienteId);
 
         if(previousPedido == null) throw new NotFoundException('Pedido', command.previousId);
         if(cliente == null) throw new NotFoundException('Cliente', command.data.clienteId);
+
+        previousPedido.validarCambioDeTotal(command.data.total);
 
         const pedido = new Pedido(
             command.previousId,
@@ -34,7 +43,8 @@ export class EditarPedidoUseCase extends BaseUseCase<EditarPedidoCommand, Result
             cliente,
             command.data.total,
             command.data.descripcion,
-            previousPedido.calcularSaldo(command.data.total)
+            previousPedido.calcularSaldo(command.data.total),
+            previousPedido.tienePagos
         );
 
         const savedPedido = await this.pedidoRepository.update(pedido);

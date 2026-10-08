@@ -3,4 +3,5 @@ export class PagoDTO {
     pedidoId: number;
     fecha: string;
     monto: number;
+    numeroRecibo?: number;
 }

@@ -7,6 +7,7 @@ import { EliminarPedidoUseCase } from "@feature/pedido/application/usecase/elimi
 import { ClienteRepository } from "@feature/pedido/domain/repository/cliente.repository";
 import { PedidoRepository } from "@feature/pedido/domain/repository/pedido.repository";
 import { Provider } from "@nestjs/common";
+import { TransactionManager } from "@core/application/transaction/transaction-manager";
 
 export default <Provider[]>[
     {
@@ -30,10 +31,11 @@ export default <Provider[]>[
     {
         provide: EditarPedidoUseCase,
         useFactory: (
+            transactionManager: TransactionManager,
             pedidoRepository: PedidoRepository,
             clienteRepository: ClienteRepository
-        ) => new EditarPedidoUseCase(pedidoRepository, clienteRepository),
-        inject: [PedidoRepository, ClienteRepository]
+        ) => new EditarPedidoUseCase(transactionManager, pedidoRepository, clienteRepository),
+        inject: [TransactionManager, PedidoRepository, ClienteRepository]
     },
     {
         provide: EliminarPedidoUseCase,

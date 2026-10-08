@@ -1,14 +1,13 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from "@nestjs/common";
 import { ApiResponseDTO } from "@core/presentation/dto/response/api-response.dto";
 import { GetQueryParamsMapper } from "@core/presentation/mapper/get-query-params.mapper";
 import { PaginationApiMapper } from "@core/presentation/mapper/pagination-api.mapper";
 import { ConsultarPagosUseCase } from "@feature/pago/application/usecase/consultar-pagos.usecase";
 import { CrearPagoUseCase } from "@feature/pago/application/usecase/crear-pago.usecase";
-import { EditarPagoUseCase } from "@feature/pago/application/usecase/editar-pago.usecase";
-import { EliminarPagoUseCase } from "@feature/pago/application/usecase/eliminar-pago.usecase";
+import { AnularPagoUseCase } from "@feature/pago/application/usecase/anular-pago.usecase";
 import { PagoDTO } from "../dto/pago.dto";
 import { NewPagoDTO } from "../dto/new-pago.dto";
-import { EditPagoDTO } from "../dto/edit-pago.dto";
+import { AnularPagoDTO } from "../dto/anular-pago.dto";
 import { GetPagosQueryParamDTO } from "../dto/http/get-pagos-query-param.dto";
 import { PagoDTOMapper } from "../mapper/pago-dto.mapper";
 
@@ -17,8 +16,7 @@ export class PagoController {
     constructor(
         private readonly consultarPagosUseCase: ConsultarPagosUseCase,
         private readonly crearPagoUseCase: CrearPagoUseCase,
-        private readonly editarPagoUseCase: EditarPagoUseCase,
-        private readonly eliminarPagoUseCase: EliminarPagoUseCase
+        private readonly anularPagoUseCase: AnularPagoUseCase
     ) {}
 
     @Get()
@@ -40,32 +38,19 @@ export class PagoController {
         });
         return ApiResponseDTO.success({
             data: PagoDTOMapper.toDTO(result.data),
-            message: "Pago creado exitosamente"
+            message: `Pago registrado. Recibo Nº ${result.data.numeroRecibo}`
         });
     }
 
-    @Put(':previousId')
-    async editarPago(
-        @Param('previousId', ParseIntPipe) previousId: number,
-        @Body() pagoDto: EditPagoDTO
-    ): Promise<ApiResponseDTO<PagoDTO>> {
-        const result = await this.editarPagoUseCase.execute({
-            data: PagoDTOMapper.toEditarData(pagoDto),
-            previousId
-        });
-        return ApiResponseDTO.success({
-            data: PagoDTOMapper.toDTO(result.data),
-            message: 'Pago editado correctamente'
-        });
-    }
-
-    @Delete(':id')
-    async eliminarPago(
-        @Param('id', ParseIntPipe) id: number
+    // Los pagos no se editan: para corregir uno se anula y se registra uno nuevo
+    @Post(':id/anulacion')
+    async anularPago(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() anularPagoDto: AnularPagoDTO
     ): Promise<ApiResponseDTO<void>> {
-        await this.eliminarPagoUseCase.execute({data: { id }});
+        await this.anularPagoUseCase.execute({data: { id, motivo: anularPagoDto.motivo }});
         return ApiResponseDTO.success({
-            message: 'Pago eliminado correctamente'
+            message: 'Pago anulado correctamente'
         });
     }
 }

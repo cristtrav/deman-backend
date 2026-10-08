@@ -1,4 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
+import { BusinessRuleException } from "@core/domain/exception/business-rule.exception";
 import { Cliente } from "./cliente";
 
 export class Pedido {
@@ -13,6 +14,7 @@ export class Pedido {
     private _total: number;
     private _descripcion: string;
     private _saldo: number;
+    private _tienePagos: boolean;
 
     constructor(
         id: number,
@@ -26,6 +28,7 @@ export class Pedido {
         total: number,
         descripcion: string,
         saldo: number,
+        tienePagos: boolean = false,
     ){
         this._id = id;
         this._fechaPedido = fechaPedido;
@@ -38,6 +41,7 @@ export class Pedido {
         this._total = total;
         this._descripcion = descripcion;
         this._saldo = saldo;
+        this._tienePagos = tienePagos;
     }
 
     get id(): number { return this._id }
@@ -52,6 +56,17 @@ export class Pedido {
     get descripcion(): string { return this._descripcion }
     get saldo(): number { return this._saldo }
     get totalPagado(): number { return this._total - this._saldo }
+    /** Indica si el pedido tiene pagos registrados, incluidos los anulados. */
+    get tienePagos(): boolean { return this._tienePagos }
+
+    /**
+     * El total no puede cambiar una vez registrado un pago: los recibos emitidos
+     * tienen fijados sus saldos a partir de ese total.
+     */
+    validarCambioDeTotal(nuevoTotal: number): void {
+        if(this._tienePagos && Number(nuevoTotal) != Number(this._total))
+            throw new BusinessRuleException(`El pedido «${this._id}» ya tiene pagos registrados, no se puede modificar su total`);
+    }
 
     /**
      * Saldo que tendría el pedido con un nuevo total, conservando lo ya pagado.

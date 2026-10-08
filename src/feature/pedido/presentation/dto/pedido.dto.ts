@@ -13,4 +13,5 @@ export class PedidoDTO {
     descripcion: string;    
     total: number;
     saldo: number;
+    tienePagos: boolean;
 }

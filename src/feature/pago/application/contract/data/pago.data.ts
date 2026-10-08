@@ -2,5 +2,6 @@ export interface PagoData {
     id: number,
     pedidoId: number,
     fecha: string,
-    monto: number
+    monto: number,
+    numeroRecibo?: number
 }

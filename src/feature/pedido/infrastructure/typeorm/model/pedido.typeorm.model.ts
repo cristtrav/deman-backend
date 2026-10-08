@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, VirtualColumn } from "typeorm";
 import { ClienteTypeORMModel } from "./cliente.typeorm.model";
 
 @Entity({schema: 'pedidos',name: 'pedido'})
@@ -24,7 +24,13 @@ export class PedidoTypeORMModel {
     @Column({name: 'entregado', type: 'boolean'})
     entregado: boolean;
 
-    @Column({name: 'total', type: 'numeric', precision: 10, scale: 2})
+    @Column({
+        name: 'total',
+        type: 'numeric',
+        precision: 9,
+        scale: 0,
+        transformer: { to: (value: number) => value, from: (value: string) => Number(value) }
+    })
     total: number;
 
     @Column({
@@ -41,6 +47,13 @@ export class PedidoTypeORMModel {
 
     @Column({name: 'eliminado', type: 'boolean', default: false})
     eliminado: boolean;
+
+    // Incluye los pagos anulados: su anulación forma parte del historial de saldo del pedido
+    @VirtualColumn({
+        type: 'boolean',
+        query: (alias) => `SELECT EXISTS (SELECT 1 FROM "pagos-pedidos".pago pg WHERE pg.id_pedido = ${alias}.id)`
+    })
+    tienePagos: boolean;
 
     @ManyToOne(() => ClienteTypeORMModel, {eager: true})
     @JoinColumn({name: 'id_cliente'})

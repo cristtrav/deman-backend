@@ -24,12 +24,13 @@ export class PagoTypeORMMapper {
         return pagoOrm;
     }
 
-    static toData(pagoOrm: PagoTypeORMModel): PagoData {
+    static toData(pagoOrm: PagoTypeORMModel, numeroRecibo?: number): PagoData {
         return {
             id: pagoOrm.id,
             pedidoId: pagoOrm.pedido.id,
             fecha: pagoOrm.fecha,
-            monto: pagoOrm.monto
+            monto: pagoOrm.monto,
+            numeroRecibo
         };
     }
 }
