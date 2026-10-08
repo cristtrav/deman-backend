@@ -11,8 +11,15 @@ import { MovimientoSaldoRepository } from "@feature/pago/domain/repository/movim
 import { NumeracionReciboRepository } from "@feature/pago/domain/repository/numeracion-recibo.repository";
 import { EmpresaRepository } from "@feature/pago/domain/repository/empresa.repository";
 import { Provider } from "@nestjs/common";
+import { ReciboReadRepository } from "@feature/pago/application/read-repository/recibo-read.repository";
+import { ConsultarReciboUseCase } from "@feature/pago/application/usecase/consultar-recibo.usecase";
 
 export default <Provider[]>[
+    {
+        provide: ConsultarReciboUseCase,
+        useFactory: (reciboReadRepository: ReciboReadRepository) => new ConsultarReciboUseCase(reciboReadRepository),
+        inject: [ReciboReadRepository]
+    },
     {
         provide: ConsultarPagosUseCase,
         useFactory: (pagoReadRepository: PagoReadRepository) => new ConsultarPagosUseCase(pagoReadRepository),

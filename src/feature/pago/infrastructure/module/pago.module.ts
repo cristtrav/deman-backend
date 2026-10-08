@@ -12,6 +12,7 @@ import readRepositoryConfig from "./read-repository.config";
 import usecaseConfig from "./usecase.config";
 import { PagoController } from "@feature/pago/presentation/controller/pago.controller";
 import { PedidoPagoController } from "@feature/pago/presentation/controller/pedido-pago.controller";
+import { ReciboController } from "@feature/pago/presentation/controller/recibo.controller";
 
 @Module({
     imports: [
@@ -32,7 +33,8 @@ import { PedidoPagoController } from "@feature/pago/presentation/controller/pedi
     ],
     controllers: [
         PagoController,
-        PedidoPagoController
+        PedidoPagoController,
+        ReciboController
     ]
 })
 export class PagoModule {}
