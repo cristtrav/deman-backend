@@ -8,7 +8,7 @@ import { SesionResult } from "../contract/sesion.result";
 import { CredencialesInvalidasException } from "../exception/credenciales-invalidas.exception";
 import { UsuarioInactivoException } from "../exception/usuario-inactivo.exception";
 import { generarSesion } from "./generar-sesion";
-import { normalizarCi } from "../util/normalizar-ci";
+import { normalizarCi } from "@feature/auth/usuario/domain/util/normalizar-ci";
 
 interface CredencialData {
     ci: string;

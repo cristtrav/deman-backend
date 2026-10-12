@@ -3,6 +3,7 @@ import { Usuario } from "../../domain/model/usuario.entity";
 import { ResultContract } from "@core/application/contract/result/result.contract";
 import { BaseUseCase } from "@core/application/usecase/base.usecase";
 import { UsuarioRepository } from "../../domain/repository/usuario.repository";
+import { normalizarCi } from "../../domain/util/normalizar-ci";
 
 interface UsuarioData {
     id: number;
@@ -27,7 +28,8 @@ export class EditarUsuarioUseCase extends BaseUseCase<EditarUsuarioCommand, Edit
             command.data.id,
             command.data.nombres,
             command.data.apellidos,
-            command.data.ci,
+            // Debe coincidir con la normalización del login. Si falta, la entidad informa el campo requerido
+            command.data.ci == null ? command.data.ci : normalizarCi(command.data.ci),
             command.data.password,
             command.data.activo
         )

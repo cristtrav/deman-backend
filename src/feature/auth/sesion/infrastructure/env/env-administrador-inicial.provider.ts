@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import { AdministradorInicialProvider } from '@feature/auth/sesion/application/port/administrador-inicial.provider';
 import { AdministradorInicialData } from '@feature/auth/sesion/application/contract/administrador-inicial.data';
-import { normalizarCi } from '@feature/auth/sesion/application/util/normalizar-ci';
+import { normalizarCi } from '@feature/auth/usuario/domain/util/normalizar-ci';
 
 config();
 

@@ -6,7 +6,7 @@ import { Usuario } from "@feature/auth/usuario/domain/model/usuario.entity";
 import { AdministradorInicialRepository } from "../repository/administrador-inicial.repository";
 import { AdministradorInicialProvider } from "../port/administrador-inicial.provider";
 import { PasswordHasher } from "../port/password-hasher";
-import { normalizarCi } from "../util/normalizar-ci";
+import { normalizarCi } from "@feature/auth/usuario/domain/util/normalizar-ci";
 
 // undefined cuando ya existían usuarios y no se creó ninguno
 interface CrearAdministradorInicialResult extends ResultContract<Usuario | undefined> { }

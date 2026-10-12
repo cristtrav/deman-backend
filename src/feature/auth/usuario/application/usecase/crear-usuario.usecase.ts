@@ -5,6 +5,7 @@ import { BaseUseCase } from "@core/application/usecase/base.usecase";
 import { UsuarioRepository } from "../../domain/repository/usuario.repository";
 import { NewUsuario } from "../../domain/model/new-usuario.entity";
 import * as bcrypt from 'bcrypt';
+import { normalizarCi } from "../../domain/util/normalizar-ci";
 
 interface UsuarioData {
     id?: number;
@@ -25,7 +26,8 @@ export class CrearUsuarioUseCase extends BaseUseCase<CrearUsuarioCommand, CrearU
         const newUsuario = new NewUsuario(
             command.data.nombres,
             command.data.apellidos,
-            command.data.ci,
+            // Debe coincidir con la normalización del login. Si falta, la entidad informa el campo requerido
+            command.data.ci == null ? command.data.ci : normalizarCi(command.data.ci),
             hashedPassword,
             command.data.activo,
             command.data.id
