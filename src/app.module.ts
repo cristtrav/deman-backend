@@ -13,6 +13,7 @@ import { ProductoModule } from './feature/inventario/producto/infrastructure/mod
 import { UnidadMedidaModule } from './feature/unidad-medida/infrastructure/module/unidad-medida.module';
 import { ClienteModule } from '@feature/facturacion/cliente/infrastructure/module/cliente.module';
 import { UsuarioModule } from '@feature/auth/usuario/infrastructure/module/usuario.module';
+import { SesionModule } from '@feature/auth/sesion/infrastructure/module/sesion.module';
 import { InventarioModule } from './feature/inventario/inventario/infrastructure/module/inventario.module';
 import { ProductoVarianteModule } from './feature/inventario/producto-variante/infrastructure/module/producto-variante.module';
 import { VentaModule } from './feature/facturacion/venta/infrastructure/module/venta.module';
@@ -31,6 +32,7 @@ import { EmpresaModule } from '@feature/empresa/infrastructure/module/empresa.mo
     ProductoModule,
     ClienteModule, 
     UsuarioModule,
+    SesionModule,
     UnidadMedidaModule,
     InventarioModule,
     ProductoVarianteModule,

@@ -71,7 +71,19 @@ DB_PORT=5432 #Puerto de PostgreSQL
 DB_USERNAME=<user> #Usuario de la base de datos
 DB_PASSWORD=<password> #Contraseña de la base de datos
 DB_NAME=deman-db #Nombre de la base de datos
+
+# Usuario administrador inicial: solo se usa si la base no tiene ningún usuario
+ADMIN_CI=<ci> #CI del administrador (se guarda sin puntos)
+ADMIN_PASSWORD=<password> #Entre 8 caracteres y 72 bytes
+ADMIN_NOMBRES=Administrador #Opcional
+ADMIN_APELLIDOS="del Sistema" #Opcional
 ```
+
+### Usuario administrador inicial
+
+Al arrancar, si la base no tiene ningún usuario (sin contar los eliminados), el backend crea uno activo con los datos de `ADMIN_*`. Si faltan o son inválidos, el arranque falla con un mensaje indicando la variable.
+
+Una vez creado el usuario, elimine `ADMIN_PASSWORD` del `.env`: en los arranques siguientes estas variables se ignoran (si sigue definida, se registra una advertencia). Cambiarlas no modifica la contraseña del usuario ya creado.
 ## Migraciones de Base de Datos
 
 Los cambios en la base de datos se incorporan exclusivamente mediante migraciones a modo de gestión de versiones.
