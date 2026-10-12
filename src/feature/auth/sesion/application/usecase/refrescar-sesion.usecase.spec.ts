@@ -15,6 +15,7 @@ describe('RefrescarSesionUseCase', () => {
         tokens = {
             generarAccessToken: jest.fn().mockResolvedValue({ token: 'access2', expiresIn: 900 }),
             generarRefreshToken: jest.fn().mockResolvedValue({ token: 'refresh2', expiresIn: 604800 }),
+            verificarAccessToken: jest.fn(),
             verificarRefreshToken: jest.fn().mockResolvedValue({ usuarioId: 3 })
         }
         useCase = new RefrescarSesionUseCase(repo, tokens)

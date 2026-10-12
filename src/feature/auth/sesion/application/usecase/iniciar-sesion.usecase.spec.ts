@@ -20,6 +20,7 @@ describe('IniciarSesionUseCase', () => {
         tokens = {
             generarAccessToken: jest.fn().mockResolvedValue({ token: 'access', expiresIn: 900 }),
             generarRefreshToken: jest.fn().mockResolvedValue({ token: 'refresh', expiresIn: 604800 }),
+            verificarAccessToken: jest.fn(),
             verificarRefreshToken: jest.fn()
         }
         useCase = new IniciarSesionUseCase(repo, hasher, tokens)

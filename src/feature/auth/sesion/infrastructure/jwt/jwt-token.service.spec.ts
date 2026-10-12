@@ -50,4 +50,37 @@ describe('JwtTokenService', () => {
 
         await expect(service.verificarRefreshToken(token)).rejects.toBeInstanceOf(TokenInvalidoException)
     })
+
+    it('verifica un access token propio', async () => {
+        const { token } = await service.generarAccessToken({ usuarioId: 3, ci: '1234567', nombres: 'Juan', apellidos: 'Pérez' })
+
+        await expect(service.verificarAccessToken(token))
+            .resolves.toEqual({ usuarioId: 3, ci: '1234567', nombres: 'Juan', apellidos: 'Pérez' })
+    })
+
+    it('rechaza un refresh token usado como access token', async () => {
+        const { token } = await service.generarRefreshToken({ usuarioId: 3 })
+
+        await expect(service.verificarAccessToken(token)).rejects.toBeInstanceOf(TokenInvalidoException)
+    })
+
+    it('rechaza un token con typ distinto aunque esté firmado con el secreto de access', async () => {
+        const token = await jwtService.signAsync({ typ: 'refresh' }, { secret: config.accessSecret, issuer: 'deman-backend', subject: '3' })
+
+        await expect(service.verificarAccessToken(token)).rejects.toBeInstanceOf(TokenInvalidoException)
+    })
+
+    it('rechaza un access token expirado', async () => {
+        const token = await jwtService.signAsync({ typ: 'access' }, { secret: config.accessSecret, issuer: 'deman-backend', subject: '3', expiresIn: -10 })
+
+        await expect(service.verificarAccessToken(token)).rejects.toBeInstanceOf(TokenInvalidoException)
+    })
+
+    it('rechaza un access token alterado', async () => {
+        const { token } = await service.generarAccessToken({ usuarioId: 3, ci: '1', nombres: 'a', apellidos: 'b' })
+        const [header, , firma] = token.split('.')
+        const payload = Buffer.from(JSON.stringify({ typ: 'access', sub: '1', iss: 'deman-backend' })).toString('base64url')
+
+        await expect(service.verificarAccessToken(`${header}.${payload}.${firma}`)).rejects.toBeInstanceOf(TokenInvalidoException)
+    })
 })

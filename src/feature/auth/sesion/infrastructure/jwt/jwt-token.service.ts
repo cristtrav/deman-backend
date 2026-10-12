@@ -12,6 +12,14 @@ interface RefreshTokenClaims {
     typ: string;
 }
 
+interface AccessTokenClaims {
+    sub: string;
+    typ: string;
+    ci: string;
+    nombres: string;
+    apellidos: string;
+}
+
 export class JwtTokenService implements TokenService {
     constructor(
         private jwtService: JwtService,
@@ -50,6 +58,22 @@ export class JwtTokenService implements TokenService {
             }
         )
         return { token, expiresIn: this.jwtConfig.refreshExpiresIn }
+    }
+
+    async verificarAccessToken(token: string): Promise<AccessTokenPayload> {
+        let claims: AccessTokenClaims
+        try {
+            claims = await this.jwtService.verifyAsync<AccessTokenClaims>(token, {
+                secret: this.jwtConfig.accessSecret,
+                issuer: this.jwtConfig.issuer,
+                algorithms: [ALGORITMO]
+            })
+        } catch {
+            throw new TokenInvalidoException()
+        }
+        const usuarioId = Number(claims.sub)
+        if (claims.typ !== 'access' || !Number.isInteger(usuarioId)) throw new TokenInvalidoException()
+        return { usuarioId, ci: claims.ci, nombres: claims.nombres, apellidos: claims.apellidos }
     }
 
     async verificarRefreshToken(token: string): Promise<RefreshTokenPayload> {

@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { ApiResponseDTO } from "@core/presentation/dto/response/api-response.dto";
+import { Publico } from "@core/presentation/decorator/publico.decorator";
 import { IniciarSesionUseCase } from "../../application/usecase/iniciar-sesion.usecase";
 import { RefrescarSesionUseCase } from "../../application/usecase/refrescar-sesion.usecase";
 import { LoginDTO } from "../dto/login.dto";
@@ -7,6 +8,8 @@ import { RefreshDTO } from "../dto/refresh.dto";
 import { SesionDTO } from "../dto/sesion.dto";
 import { SesionDTOMapper } from "../mapper/sesion-dto.mapper";
 
+// Login y refresh se consumen sin access token
+@Publico()
 @Controller('auth')
 export class AuthController {
 
