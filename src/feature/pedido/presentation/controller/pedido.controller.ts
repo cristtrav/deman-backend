@@ -12,6 +12,10 @@ import { PaginationApiMapper } from "@core/presentation/mapper/pagination-api.ma
 import { EditarPedidoUseCase } from "@feature/pedido/application/usecase/editar-pedido.usecase";
 import { EditPedidoDTO } from "../dto/edit-pedido.dto";
 import { EliminarPedidoUseCase } from "@feature/pedido/application/usecase/eliminar-pedido.usecase";
+import { ContarPedidosPendientesUseCase } from "@feature/pedido/application/usecase/contar-pedidos-pendientes.usecase";
+import { ConsultarProximasEntregasUseCase } from "@feature/pedido/application/usecase/consultar-proximas-entregas.usecase";
+import { GetProximasEntregasQueryParamDTO } from "../dto/http/get-proximas-entregas-query-param.dto";
+import { PedidosPendientesDTO } from "../dto/pedidos-pendientes.dto";
 
 @Controller('pedidos')
 export class PedidoController {
@@ -20,8 +24,34 @@ export class PedidoController {
         private readonly consultarPedidoPorIdUseCase: ConsultarPedidoPorIdUseCase,
         private readonly consultarPedidosUseCase: ConsultarPedidosUseCase,
         private readonly editarPedidoUseCase: EditarPedidoUseCase,
-        private readonly eliminarPedidoUseCase: EliminarPedidoUseCase
+        private readonly eliminarPedidoUseCase: EliminarPedidoUseCase,
+        private readonly contarPedidosPendientesUseCase: ContarPedidosPendientesUseCase,
+        private readonly consultarProximasEntregasUseCase: ConsultarProximasEntregasUseCase
     ) {}
+
+    // Las rutas fijas deben declararse antes de ':id' para que no las capture ese parámetro
+    @Get('pendientes/cantidad')
+    async contarPendientes(): Promise<ApiResponseDTO<PedidosPendientesDTO>> {
+        const result = await this.contarPedidosPendientesUseCase.execute();
+        return ApiResponseDTO.success({
+            data: { cantidad: result.data }
+        });
+    }
+
+    @Get('proximas-entregas')
+    async consultarProximasEntregas(
+        @Query() query: GetProximasEntregasQueryParamDTO
+    ): Promise<ApiResponseDTO<PedidoDTO[]>> {
+        const result = await this.consultarProximasEntregasUseCase.execute({
+            periodo: query.periodo,
+            pagination: { page: query.page, pageSize: query.pageSize }
+        });
+        return ApiResponseDTO.success({
+            data: result.data.map(p => PedidoDTOMapper.toDTO(p)),
+            message: "Próximas entregas consultadas exitosamente",
+            pagination: result.page ? PaginationApiMapper.toApiResponsePaginationDTO(result.page) : undefined
+        });
+    }
 
     @Get(':id')
     async consultarPedidoPorId(@Param('id', ParseIntPipe) id: number): Promise<ApiResponseDTO<PedidoDTO>> {

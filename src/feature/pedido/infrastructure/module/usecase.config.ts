@@ -8,6 +8,8 @@ import { ClienteRepository } from "@feature/pedido/domain/repository/cliente.rep
 import { PedidoRepository } from "@feature/pedido/domain/repository/pedido.repository";
 import { Provider } from "@nestjs/common";
 import { TransactionManager } from "@core/application/transaction/transaction-manager";
+import { ContarPedidosPendientesUseCase } from "@feature/pedido/application/usecase/contar-pedidos-pendientes.usecase";
+import { ConsultarProximasEntregasUseCase } from "@feature/pedido/application/usecase/consultar-proximas-entregas.usecase";
 
 export default <Provider[]>[
     {
@@ -22,6 +24,16 @@ export default <Provider[]>[
         provide: ConsultarPedidoPorIdUseCase,
         useFactory: (pedidoRepository: PedidoRepository) => new ConsultarPedidoPorIdUseCase(pedidoRepository),
         inject: [PedidoRepository]
+    },
+    {
+        provide: ContarPedidosPendientesUseCase,
+        useFactory: (pedidoReadRepository: PedidoReadRepository) => new ContarPedidosPendientesUseCase(pedidoReadRepository),
+        inject: [PedidoReadRepository]
+    },
+    {
+        provide: ConsultarProximasEntregasUseCase,
+        useFactory: (pedidoReadRepository: PedidoReadRepository) => new ConsultarProximasEntregasUseCase(pedidoReadRepository),
+        inject: [PedidoReadRepository]
     },
     {
         provide: ConsultarPedidosUseCase,

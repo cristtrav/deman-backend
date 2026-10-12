@@ -3,7 +3,9 @@ import { EntityTypeORMMap } from "@core/infrastructure/typeorm/mapping/entity-ty
 import { ConsultarPedidosResult } from "@feature/pedido/application/contract/result/consultar-pedidos.result";
 import { PedidoReadRepository } from "@feature/pedido/application/read-repository/pedido-read.repository";
 import { Pedido } from "@feature/pedido/domain/model/pedido";
-import { Repository } from "typeorm";
+import { Between, LessThanOrEqual, Repository } from "typeorm";
+import { Temporal } from "@js-temporal/polyfill";
+import { QueryPaginationContract } from "@core/application/contract/query/query-pagination.contract";
 import { PedidoTypeORMModel } from "../model/pedido.typeorm.model";
 import { InjectRepository } from "@nestjs/typeorm";
 import { QueryFindOptionsMapper } from "@core/infrastructure/typeorm/mapper/query-find-options.mapper";
@@ -31,4 +33,31 @@ export class PedidoTypeORMReadRepository implements PedidoReadRepository {
         }
         return result; 
     }
-}   
+
+    async contarPendientes(): Promise<number> {
+        return this.pedidoRepository.countBy({ entregado: false, eliminado: false });
+    }
+
+    async consultarPendientesPorEntrega(
+        desde: Temporal.PlainDate | undefined,
+        hasta: Temporal.PlainDate,
+        pagination: QueryPaginationContract
+    ): Promise<ConsultarPedidosResult> {
+        const [pedidos, total] = await this.pedidoRepository.findAndCount({
+            where: {
+                entregado: false,
+                eliminado: false,
+                fechaEntrega: desde
+                    ? Between(desde.toString(), hasta.toString())
+                    : LessThanOrEqual(hasta.toString())
+            },
+            order: { fechaEntrega: 'ASC', id: 'ASC' },
+            take: pagination.pageSize,
+            skip: (pagination.page - 1) * pagination.pageSize
+        });
+        return {
+            data: pedidos.map(p => PedidoTypeORMMapper.toData(p)),
+            page: { page: pagination.page, pageSize: pagination.pageSize, total }
+        };
+    }
+}
