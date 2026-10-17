@@ -114,3 +114,30 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Compilar el cliente (frontend Angular)
+
+El backend sirve el cliente Angular ya compilado desde la carpeta `client/` (ignorada en git). Las rutas bajo `/api` van a la API y el resto devuelve los archivos del cliente o `index.html` para el router de Angular.
+
+Requisitos: el proyecto `deman-frontend` debe estar en la carpeta hermana `../deman-frontend` y tener sus dependencias instaladas.
+
+```bash
+# Instalar dependencias del frontend (solo la primera vez o cuando cambien)
+$ npm --prefix ../deman-frontend install
+
+# Compilar el frontend en modo producción y copiarlo a client/
+$ npm run build:client
+```
+
+`build:client` ejecuta `ng build` en `deman-frontend` (configuración de producción, que usa `apiURL: '/api'`), borra la carpeta `client/` y copia en su lugar el contenido de `../deman-frontend/dist/deman-frontend/browser`.
+
+Luego compilar y arrancar el backend; la aplicación queda disponible en `http://localhost:3000` (o el puerto definido en `PORT`):
+
+```bash
+$ npm run build
+$ npm run start:prod
+```
+
+Para servir el cliente desde otra ubicación, definir en el `.env` la variable `CLIENT_PATH` con la ruta a la carpeta compilada.
+
+Durante el desarrollo no es necesario compilar el cliente: se puede usar `npm start` en `deman-frontend` (`http://localhost:4200`), que apunta a la API en `http://localhost:3000/api`.
