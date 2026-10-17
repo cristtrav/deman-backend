@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_FILTER } from '@nestjs/core';
@@ -23,6 +25,14 @@ import { EmpresaModule } from '@feature/empresa/infrastructure/module/empresa.mo
 
 @Module({
   imports: [
+    // Cliente Angular compilado (contenido de dist/deman-frontend/browser).
+    // Las rutas que no son archivos ni /api devuelven index.html para el router de Angular.
+    ServeStaticModule.forRootAsync({
+      useFactory: () => [{
+        rootPath: process.env.CLIENT_PATH || join(__dirname, '..', 'client'),
+        exclude: ['/api/{*path}']
+      }]
+    }),
     DatabaseModule,
     TransactionModule,
     MarcaModule,
