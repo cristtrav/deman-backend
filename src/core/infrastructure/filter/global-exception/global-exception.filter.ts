@@ -1,7 +1,7 @@
 import { ApplicationException } from '@core/application/exception/application.exception';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger, ValidationError } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { DomainException } from 'src/core/domain/exception/domain.exception';
+import { DomainException } from '@core/domain/exception/domain.exception';
 import { ErrorResponseDTO, ValidationErrorDetail } from '@core/presentation/dto/response/error-response.dto';
 
 @Catch()
@@ -146,6 +146,20 @@ export class GlobalExceptionFilter<T> implements ExceptionFilter {
         `Domain Exception: ${exception.message}`,
         JSON.stringify(logContext)
       );
+    } else if (exception instanceof ApplicationException) {
+      // Igual que las de dominio, salvo que declaren un estado 5xx
+      if (exception.statusCode >= 500) {
+        this.logger.error(
+          `Application Exception: ${exception.message}`,
+          exception.stack,
+          JSON.stringify(logContext)
+        );
+      } else {
+        this.logger.warn(
+          `Application Exception: ${exception.message}`,
+          JSON.stringify(logContext)
+        );
+      }
     } else if (exception instanceof HttpException) {
       const status = exception.getStatus();
       if (status >= 500) {
