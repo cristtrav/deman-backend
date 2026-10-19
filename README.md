@@ -66,6 +66,8 @@ $ npm install
 ## Variables de entorno (archivo .env)
 
 ```bash
+PORT=3000 #Puerto en el que escucha el servidor (opcional, por defecto 3000)
+
 DB_HOST=localhost #Host de la base de datos
 DB_PORT=5432 #Puerto de PostgreSQL
 DB_USERNAME=<user> #Usuario de la base de datos
