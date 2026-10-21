@@ -12,6 +12,8 @@ import { AdministradorInicialInitializer } from "../bootstrap/administrador-inic
 import { CrearAdministradorInicialUseCase } from "../../application/usecase/crear-administrador-inicial.usecase";
 import { TokenService } from "../../application/port/token.service";
 import { AccessTokenGuard } from "../../presentation/guard/access-token.guard";
+import { AdministradorGuard } from "../../presentation/guard/administrador.guard";
+import { CredencialReadRepository } from "../../application/read-repository/credencial.read-repository";
 
 @Module({
     imports: [
@@ -36,6 +38,12 @@ import { AccessTokenGuard } from "../../presentation/guard/access-token.guard";
             provide: APP_GUARD,
             useFactory: (reflector: Reflector, tokenService: TokenService) => new AccessTokenGuard(reflector, tokenService),
             inject: [Reflector, TokenService]
+        },
+        {
+            // Los guards globales se ejecutan en el orden en que se declaran: este necesita el usuario que adjunta AccessTokenGuard
+            provide: APP_GUARD,
+            useFactory: (reflector: Reflector, credencialReadRepository: CredencialReadRepository) => new AdministradorGuard(reflector, credencialReadRepository),
+            inject: [Reflector, CredencialReadRepository]
         }
     ],
     controllers: [

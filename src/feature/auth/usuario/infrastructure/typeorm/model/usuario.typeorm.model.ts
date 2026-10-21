@@ -20,6 +20,9 @@ export class UsuarioTypeORMModel {
     @Column()
     activo: boolean
 
+    @Column({ name: 'is_admin' })
+    isAdmin: boolean
+
     @Column()
     eliminado: boolean
 }

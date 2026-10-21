@@ -9,7 +9,8 @@ export class UsuarioTypeORMMapper {
             usuarioTypeORM.apellidos,
             usuarioTypeORM.ci,
             usuarioTypeORM.password,
-            usuarioTypeORM.activo
+            usuarioTypeORM.activo,
+            usuarioTypeORM.isAdmin
         )
     }
 
@@ -21,6 +22,7 @@ export class UsuarioTypeORMMapper {
         usuarioTypeOrm.ci = usuario.ci
         usuarioTypeOrm.password = usuario.password
         usuarioTypeOrm.activo = usuario.activo
+        usuarioTypeOrm.isAdmin = usuario.isAdmin
         return usuarioTypeOrm
     }
 }

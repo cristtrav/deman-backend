@@ -22,7 +22,7 @@ describe('RefrescarSesionUseCase', () => {
     })
 
     it('emite un nuevo par de tokens', async () => {
-        repo.findById.mockResolvedValue(new Usuario(3, 'Juan', 'Pérez', '1234567', 'hash', true))
+        repo.findById.mockResolvedValue(new Usuario(3, 'Juan', 'Pérez', '1234567', 'hash', true, false))
 
         const result = await useCase.execute({ data: 'token' })
 
@@ -46,7 +46,7 @@ describe('RefrescarSesionUseCase', () => {
     })
 
     it('rechaza si el usuario fue desactivado', async () => {
-        repo.findById.mockResolvedValue(new Usuario(3, 'Juan', 'Pérez', '1234567', 'hash', false))
+        repo.findById.mockResolvedValue(new Usuario(3, 'Juan', 'Pérez', '1234567', 'hash', false, false))
 
         await expect(useCase.execute({ data: 'token' })).rejects.toBeInstanceOf(UsuarioInactivoException)
     })

@@ -9,4 +9,5 @@ PRODUCTO_FIELD_MAP.set("apellidos", "apellidos")
 PRODUCTO_FIELD_MAP.set("ci", "ci")
 PRODUCTO_FIELD_MAP.set("password", "password")
 PRODUCTO_FIELD_MAP.set("activo", "activo")
+PRODUCTO_FIELD_MAP.set("isAdmin", "isAdmin")
 export default PRODUCTO_FIELD_MAP;

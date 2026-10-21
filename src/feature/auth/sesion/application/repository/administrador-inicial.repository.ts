@@ -7,5 +7,9 @@ export abstract class AdministradorInicialRepository {
     abstract bloquearUsuarios(): Promise<void>;
     // Solo considera usuarios no eliminados
     abstract existeUsuario(): Promise<boolean>;
+    // Solo considera usuarios activos y no eliminados
+    abstract existeAdministrador(): Promise<boolean>;
+    // Otorga el permiso de administrador al usuario activo y no eliminado con ese CI; undefined si no existe
+    abstract otorgarAdministrador(ci: string): Promise<Usuario | undefined>;
     abstract crear(newUsuario: NewUsuario): Promise<Usuario>;
 }

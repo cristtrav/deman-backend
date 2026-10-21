@@ -3,6 +3,7 @@ export interface UsuarioSesion {
     nombres: string;
     apellidos: string;
     ci: string;
+    isAdmin: boolean;
 }
 
 export interface SesionResult {

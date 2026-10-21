@@ -5,4 +5,5 @@ export class NewUsuarioDTO {
     ci: string
     password: string
     activo: boolean
+    isAdmin: boolean
 }

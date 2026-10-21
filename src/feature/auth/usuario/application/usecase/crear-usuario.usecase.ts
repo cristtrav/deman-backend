@@ -14,6 +14,7 @@ interface UsuarioData {
     ci: string,
     password: string;
     activo: boolean;
+    isAdmin: boolean;
 }
 
 interface CrearUsuarioCommand extends CommandContract<UsuarioData> { }
@@ -30,6 +31,7 @@ export class CrearUsuarioUseCase extends BaseUseCase<CrearUsuarioCommand, CrearU
             command.data.ci == null ? command.data.ci : normalizarCi(command.data.ci),
             hashedPassword,
             command.data.activo,
+            command.data.isAdmin,
             command.data.id
         )
         return { data: await this.usuarioRepository.create(newUsuario) }

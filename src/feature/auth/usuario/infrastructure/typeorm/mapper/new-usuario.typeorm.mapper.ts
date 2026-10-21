@@ -10,6 +10,7 @@ export class NewUsuarioTypeORMMapper {
         usuarioTypeOrm.ci = newUsuario.ci
         usuarioTypeOrm.password = newUsuario.password
         usuarioTypeOrm.activo = newUsuario.activo
+        usuarioTypeOrm.isAdmin = newUsuario.isAdmin
         return usuarioTypeOrm
     }
 

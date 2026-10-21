@@ -47,6 +47,16 @@ describe('EnvAdministradorInicialProvider', () => {
         expect(() => provider.obtener()).toThrow('ADMIN_PASSWORD')
     })
 
+    it('informa el CI sin requerir la contraseña', () => {
+        delete process.env.ADMIN_PASSWORD
+        expect(provider.obtenerCi()).toBe('1.234.567')
+    })
+
+    it('informa undefined si el CI no está definido', () => {
+        process.env.ADMIN_CI = '  '
+        expect(provider.obtenerCi()).toBeUndefined()
+    })
+
     it('falla con un CI de más de 20 caracteres', () => {
         process.env.ADMIN_CI = '1'.repeat(21)
         expect(() => provider.obtener()).toThrow('ADMIN_CI')

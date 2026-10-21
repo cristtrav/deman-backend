@@ -26,6 +26,18 @@ export class AdministradorInicialTypeORMRepository implements AdministradorInici
         return TypeORMTransactionContext.repository(this.usuarioTypeOrmRepository).existsBy({ eliminado: false })
     }
 
+    async existeAdministrador(): Promise<boolean> {
+        return TypeORMTransactionContext.repository(this.usuarioTypeOrmRepository).existsBy({ eliminado: false, activo: true, isAdmin: true })
+    }
+
+    async otorgarAdministrador(ci: string): Promise<Usuario | undefined> {
+        const repository = TypeORMTransactionContext.repository(this.usuarioTypeOrmRepository)
+        const usuario = await repository.findOneBy({ ci, eliminado: false, activo: true })
+        if (usuario == null) return undefined
+        usuario.isAdmin = true
+        return UsuarioTypeORMMapper.toDomain(await repository.save(usuario))
+    }
+
     async crear(newUsuario: NewUsuario): Promise<Usuario> {
         const repository = TypeORMTransactionContext.repository(this.usuarioTypeOrmRepository)
         const guardado = await repository.save(NewUsuarioTypeORMMapper.toORM(newUsuario))

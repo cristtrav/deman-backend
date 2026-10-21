@@ -7,7 +7,7 @@ import { UsuarioInactivoException } from "../exception/usuario-inactivo.exceptio
 import { IniciarSesionUseCase } from "./iniciar-sesion.usecase";
 
 describe('IniciarSesionUseCase', () => {
-    const usuario = (activo = true) => new Usuario(3, 'Juan', 'Pérez', '1234567', 'hash', activo)
+    const usuario = (activo = true) => new Usuario(3, 'Juan', 'Pérez', '1234567', 'hash', activo, true)
 
     let repo: jest.Mocked<CredencialReadRepository>
     let hasher: jest.Mocked<PasswordHasher>
@@ -39,7 +39,7 @@ describe('IniciarSesionUseCase', () => {
             accessToken: 'access',
             refreshToken: 'refresh',
             expiresIn: 900,
-            usuario: { id: 3, nombres: 'Juan', apellidos: 'Pérez', ci: '1234567' }
+            usuario: { id: 3, nombres: 'Juan', apellidos: 'Pérez', ci: '1234567', isAdmin: true }
         })
     })
 

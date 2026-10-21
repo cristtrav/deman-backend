@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req } from "@nestjs/common";
 import { EliminarUsuarioUseCase } from "../../application/usecase/eliminar-usuario.usecase";
 import { EditarUsuarioUseCase } from "../../application/usecase/editar-usuario.usecase";
 import { CrearUsuarioUseCase } from "../../application/usecase/crear-usuario.usecase";
@@ -11,7 +11,12 @@ import { GetQueryParamsMapper } from "@core/presentation/mapper/get-query-params
 import { PaginationApiMapper } from "@core/presentation/mapper/pagination-api.mapper";
 import { NewUsuarioDTO } from "../dto/new-usuario.dto";
 import { EditarPasswordUseCase } from "../../application/usecase/editar-password.usecase";
+import { SoloAdministradores } from "@core/presentation/decorator/solo-administradores.decorator";
+import type { RequestAutenticado } from "@feature/auth/sesion/presentation/guard/access-token.guard";
 
+// Quien puede editar usuarios o cambiar sus contraseñas puede apropiarse de cualquier cuenta,
+// por eso toda la gestión, y no solo el registro, queda restringida a los administradores
+@SoloAdministradores()
 @Controller('usuarios')
 export class UsuarioController {
 
@@ -25,26 +30,29 @@ export class UsuarioController {
 
     @Delete(":id")
     async delete(
-        @Param('id', ParseIntPipe) id: number
+        @Param('id', ParseIntPipe) id: number,
+        @Req() request: RequestAutenticado
     ): Promise<ApiResponseDTO<void>> {
-        await this.eliminarUsuarioUseCase.execute({ data: { id } });
+        await this.eliminarUsuarioUseCase.execute({ data: { id }, solicitanteId: request.usuario.usuarioId });
         return ApiResponseDTO.success();
     }
 
     @Put(":previousId")
     async put(
         @Param("previousId", ParseIntPipe) previousId: number,
-        @Body() usuarioDto: UsuarioDTO
+        @Body() usuarioDto: UsuarioDTO,
+        @Req() request: RequestAutenticado
     ): Promise<ApiResponseDTO<UsuarioDTO>> {
         const result = await this.editarUsuarioUseCase.execute({
             previousId: previousId,
+            solicitanteId: request.usuario.usuarioId,
             data: {
                 id: usuarioDto.id,
                 nombres: usuarioDto.nombres,
                 apellidos: usuarioDto.apellidos,
                 ci: usuarioDto.ci,
-                password: usuarioDto.password,
                 activo: usuarioDto.activo,
+                isAdmin: usuarioDto.isAdmin,
             }
         })
         return ApiResponseDTO.success({
@@ -89,6 +97,7 @@ export class UsuarioController {
                 ci: newUsuarioDTO.ci,
                 password: newUsuarioDTO.password,
                 activo: newUsuarioDTO.activo,
+                isAdmin: newUsuarioDTO.isAdmin,
             }
         });
         return ApiResponseDTO.success({

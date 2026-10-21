@@ -20,7 +20,8 @@ export async function generarSesion(tokenService: TokenService, usuario: Usuario
             id: usuario.id,
             nombres: usuario.nombres,
             apellidos: usuario.apellidos,
-            ci: usuario.ci
+            ci: usuario.ci,
+            isAdmin: usuario.isAdmin
         }
     }
 }

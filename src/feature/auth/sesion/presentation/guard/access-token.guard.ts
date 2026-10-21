@@ -13,7 +13,7 @@ export interface RequestAutenticado extends Request {
 /**
  * Exige un access token válido en la cabecera "Authorization: Bearer <token>"
  * para todos los endpoints, salvo los marcados con @Publico().
- * No controla roles: cualquier usuario con un token válido tiene acceso.
+ * No controla permisos: de eso se encarga AdministradorGuard.
  */
 export class AccessTokenGuard implements CanActivate {
     constructor(

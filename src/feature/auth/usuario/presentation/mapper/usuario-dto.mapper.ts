@@ -8,8 +8,8 @@ export class UsuarioDTOMapper{
             nombres: usuario.nombres,
             apellidos: usuario.apellidos,
             ci: usuario.ci,
-            password: usuario.password, 
-            activo: usuario.activo
+            activo: usuario.activo,
+            isAdmin: usuario.isAdmin
             
         }
     }

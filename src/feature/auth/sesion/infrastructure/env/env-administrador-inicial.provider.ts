@@ -31,6 +31,11 @@ export class EnvAdministradorInicialProvider implements AdministradorInicialProv
         return { ci, password, nombres, apellidos }
     }
 
+    obtenerCi(): string | undefined {
+        const ci = process.env.ADMIN_CI
+        return ci && ci.trim().length > 0 ? ci : undefined
+    }
+
     private requerir(nombre: string): string {
         const valor = process.env[nombre]
         if (!valor || valor.trim().length == 0)
